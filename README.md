@@ -17,7 +17,7 @@
 <div name="functional-requirements">
   <h3>Functional Requirements</h3>
 </div>
-The following actors and use cases have been identified for the Ozarks Day Hiker application.
+The following actors and use cases are identified for the KiiP (Key investment & income Planer)
 
 #### Actors
 | Actor | Description |
