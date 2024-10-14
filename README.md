@@ -42,9 +42,10 @@ This diagram represents the following user stories:
 </div>
 The following nonfunctional requirements will be satisfied.
 
-* 
-* 
-* 
+* A user will be able to use this app on Android and iOS devices
+* A user will be able to input their data in a user-friendly interface
+* A user will be able to manipulate and view their data in a user-friendly interface
+
 <div name="security-requirements">
   <h3>Security Requirements</h3>
 </div>
