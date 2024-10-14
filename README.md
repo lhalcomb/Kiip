@@ -22,8 +22,7 @@ The following actors and use cases are identified for the KiiP (Key investment &
 #### Actors
 | Actor | Description |
 |-------|-------------|
-| Hiker | A *Hiker* is a person who uses the app to explore day hikes in the Ozarks or who uses the app to actually take a day hike. |
-| Hiker Admin | A *Hike Admin* is a person who can add new hikes to the list of featured day hikes. They can also modify an existing hike. Note that a Hike Admin can use the app as a Hiker would and is thus a Hiker. A Hiker, however, is not a Hike Admin |
+| User | A *User* is a person who uses the app to input and view finance metrics. |
 
 #### Use Cases
 ![image](https://raw.githubusercontent.com/wildharpo/ozarks-day-hiker-app/refs/heads/main/Documents/Diagrams/UseCaseDiagram.jpg)
