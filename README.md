@@ -28,8 +28,14 @@ The following actors and use cases are identified for the KiiP (Key Investment &
 <img src="https://github.com/lhalcomb/Kiip/blob/main/UseCaseDiagram.jpg" width="200" height="200" />
 
 This diagram represents the following user stories:
-
-
+#### As a user: 
+* I want to create an account and login, so I know my information is personalized to me.
+* I want to input my expenses and income to keep track of my spending metrics.
+* I want to view my weekly, monthly, and yearly spending averages, to reduce unnecessary costs.
+* I want to view my weekly, monthly, and yearly income averages, to find out how much money I should expect to make in a given time period.
+* I want to keep track of frequent spending patterns to find out my biggest expenses throughout a time period.
+* I want to view and cancel my monthly subscriptions. 
+* I want to add bank account balances to keep track of my actual net worth.
 
 <div name="nonfunctional-requirements">
   <h3>Nonfunctional Requirements</h3>
