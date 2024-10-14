@@ -45,6 +45,7 @@ The following nonfunctional requirements will be satisfied.
 * A user will be able to use this app on Android and iOS devices
 * A user will be able to input their data in a user-friendly interface
 * A user will be able to manipulate and view their data in a user-friendly interface
+* The app is free to use for the user
 
 <div name="security-requirements">
   <h3>Security Requirements</h3>
@@ -84,15 +85,12 @@ The following technology plan lists potential technologies to be used in the cre
 
 The following technical risks and business goals have been identified and prioritized.
 
-| ID | Technical Risk | Business-Market | Business-Users | Business-Value |
-|----|----------------|-----------------|----------------|----------------|
-| Tech-R-1 | Limited experience developing mobile apps. | - | H | H |
-| Tech-R-2 | No experience accessing the GPS in a mobile app | - | H | H |
-| Tech-R-3 | Implementing offline map and GPS access is not the normal mode of map operation for a mobile app | M | H | H |
-| Tech-R-4 | Tools needed to conduct the project such as the IDE, Visual Paradigm, Bitbucket, Markdown, and Git are new | M | H | H |
-| Tech-R-5 | Time for the developer to work on the project is limited due to the demands of their class schedule | M | - | - |
-| Tech-R-6 | Inadequate testing does not cover requirements | L | - | - |
-| Tech-R-7 | The app is susceptible to cross-site scripting attacks | M | - | - |
+| ID | Technical Risk | Business-Users | Business-Value |
+|----|----------------|----------------|----------------|
+| Tech-R-1 | Limited experience developing mobile apps. | H | H |
+| Tech-R-2 | Limited experience with Web Dev. Frameworks, such as React, NextJS, ASP.NET & Databases like AWS or Azure | H | H |
+| Tech-R-4 | Time for the developer to work on the project is limited due to the demands of their class schedule | - | H |
+| Tech-R-5 | Inadequate testing does not cover requirements | M | L |
 
 <div name="risk-mitigation-plan">
   <h3>Risk Mitigation Plan</h3>
