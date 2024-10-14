@@ -17,13 +17,12 @@
 <div name="functional-requirements">
   <h3>Functional Requirements</h3>
 </div>
-The following actors and use cases are identified for the KiiP (Key investment & income Planer)
+The following actors and use cases are identified for the KiiP (Key Investment & Income Planner)
 
 #### Actors
 | Actor | Description |
 |-------|-------------|
-|  | |
-
+| User | A *User* is a person who uses the app to input and view finance metrics. |
 
 #### Use Cases
 ![image]()
