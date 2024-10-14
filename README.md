@@ -28,7 +28,7 @@ The following actors and use cases are identified for the KiiP (Key Investment &
 ![image](https://github.com/lhalcomb/Kiip/blob/main/UseCaseDiagram.jpg)
 
 This diagram represents the following user stories:
-#### As a user: 
+ 
 * I want to create an account and login, so I know my information is personalized to me.
 * I want to input my expenses and income to keep track of my spending metrics.
 * I want to view my weekly, monthly, and yearly spending averages, to reduce unnecessary costs.
