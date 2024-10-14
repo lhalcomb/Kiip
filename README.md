@@ -100,14 +100,10 @@ The following risk mitigation plan will help us to address and mitigate these ri
  
 | ID | Risk | Mitigation |
 |----|------|------------|
-| Tech-R-1 | Limited experience developing mobile apps. | Schedule for and work through online tutorials |
-| Tech-R-2 | No experience accessing the GPS in a mobile app | Schedule for and work through online tutorials |
-| Tech-R-3 | Implementing offline map and GPS access is not the normal mode of map operation for a mobile app | Search for information and tutorials on offline map access |
-| Tech-R-4 | Tools needed to conduct the project such as the IDE, Visual Paradigm, Bitbucket, Markdown, and Git are new | Schedule time in the schedule to learn these tools using tutorials found online |
-| Tech-R-5 | Time for the developer to work on the project is limited due to the demands of their class schedule | Explicitly use a calendar to plan daily schedules allocating spcific time periods to work on the project |
-| Tech-R-6 | Inadequate testing does not cover requirements | Utilize automated testing tools. Make testing a priority activity |
-| Tech-R-7 | The app is susceptible to cross-site scripting attacks | Follow the OWASP guidelines for preventing cross-scripting attacks and the OWASP testing protocol |
-
+| Tech-R-1 | Limited experience developing mobile apps. | Schedule for and work through online tutorials. Ask questions |
+| Tech-R-2 | Limited experience with Web Dev. Frameworks, such as React, NextJS, ASP.NET & Databases like AWS or Azure | Further research and practice with the frameworks and databases|
+| Tech-R-4 | Time for the developer to work on the project is limited due to the demands of their class schedule | Work with instructor to keep up to date with what needs done and what  can be done in the time available. |
+| Tech-R-5 | Inadequate testing does not cover requirements | Make tests a priority,  and make sure to test all requirements. Utitlize Automated testing tools|
 
 <div name="effort-estimate">
  <h2>Effort Estimate</h2>
