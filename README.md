@@ -25,7 +25,7 @@ The following actors and use cases are identified for the KiiP (Key Investment &
 | User | A *User* is a person who uses the app to input and view finance metrics. |
 
 #### Use Cases
-<img src="https://github.com/lhalcomb/Kiip/blob/main/UseCaseDiagram.jpg" width="500" height="300" />
+<img src="https://github.com/lhalcomb/Kiip/blob/main/UseCaseDiagram.jpg" width="350" height="300" />
 
 This diagram represents the following user stories:
 #### As a user: 
