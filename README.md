@@ -61,27 +61,20 @@ The following technology plan lists potential technologies to be used in the cre
 
 | Technology | Experience Rating |
 |------------|-------------------|
-| Mobile App Technologies | |
-| iOS | None |
-| Android | Tutorial |
-| Cordova | Small Scale |
-| Windows 10 Phone | None |
-| Map Technologies | |
-| Google Maps | Tutorial |
-| Bing Maps | None |
-| Open Layers Maps | None |
-| Open Street Maps | None |
-| Application and Web Development | |
-| Java | Extensive |
-| Swift | None |
+| Mobile App Technologies | Small Scale|
+| Application and Web Development | Moderate|
 | HTML 5 | Moderate |
 | Javascript | Moderate |
-| jQuery Mobile | Small Scale |
-| Bootstrap Framework | Tutorial |
-| Iconic Framework | None |
-| Web Server Scripting | |
-| PHP | Small Scale |
-| Microsoft ASP.NET | Extensive |
+| CSS | Moderate |
+| SQL | Moderate |
+| Typescript| Moderate |
+| React Native Framework | Tutorial |
+| Web Server Scripting | Moderate |
+| Microsoft ASP.NET | Small Scale |
+| Azure | None |
+| AWS | None |
+| MySQLWorkbench | Small Scale|
+| Expo | Tutorial | 
 
 ## Risk Analysis
 
