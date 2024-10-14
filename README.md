@@ -56,8 +56,8 @@ The following nonfunctional requirements will be satisfied.
 </div>
 The following security requirements will be satisfied.
 
-* Data exchanged between the Hike Admin and the ODHkr system will be encrypted. This applies to all use cases associated with the *Hike Admin* role.
-* Scripts will not be allowed in user input. This applies to the following use case - Leave a Comment on a Hike.
+* Data exchanged between the User and the KiiP system will be encrypted. This mainly applies to the app login use case (i.e. passwords)
+* Scripts will not be allowed in user input. This applies to the following use case - Input expenses and income.
 
 <div name="technology-plan">
   <h2>Technology Plan</h2>
