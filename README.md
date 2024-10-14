@@ -109,7 +109,6 @@ The following risk mitigation plan will help us to address and mitigate these ri
 | Tech-R-7 | The app is susceptible to cross-site scripting attacks | Follow the OWASP guidelines for preventing cross-scripting attacks and the OWASP testing protocol |
 
 
-
 <div name="effort-estimate">
  <h2>Effort Estimate</h2>
 </div>
