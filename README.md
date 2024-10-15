@@ -111,30 +111,25 @@ The following risk mitigation plan will help us to address and mitigate these ri
 
 The following effort estimate has been calculated using NOP (nominal object points) using the following categories of work to be done - screens, reports (none), and 3GL components.
 
-| Artifacts | Complexity | Object Points | Notes |
-|-----------|------------|---------------|-------|
-| **Screens** | | | |
-| Browse Hikes | Simple | 1 | Screen will be constructed by reading hike locations & names from a data source |
-| Explore Hikes | Medium | 2 | Screen will have several components drawing data from different sources |
-|    Sub-screens | | | |
-|    Read About | Simple | 1 | Simple text with some images in the screen |
-|    View Hike | Medium | 2 | Must position on a map and allow for zoom with different sized devices |
-|    Driving Directions | Simple | 1 | Will have to query map server to get the directions |
-|    Watch Video | Simple | 1 | Embedded video viewer |
-|    Leave Comment | Simple | 1 | Simple input of text |
-|    Read Comments | Simple | 1 | Simple display of text extracted from data table |
-|    View on Google Earth | Simple | 1 | Simple linke, but will require scripting for Google Earth |
-| Setup Hike Mode | Simple | 1 | Simple screen |
-| GPS Trail Guide | Medium | 2 | Complex screen drawing from multiple local data sources |
-| Create Trail Entry | Simple | 1 | Simple data entry screen |
-| Edit Trail Entry | Simple | 1 | Simple data update |
-| *Screen Total* | | 16 | |
-| **3GL Components** | | | |
-| Map Components | 2 @ 10 | 20 | Map interaction and hike data management components |
-| Google Earth Interaction | 1 | 10 | Component to link hike to Google Earth |
-| Standalone GPS Mode | 1 | 10 | Component to manage map and data in standalone GPS mode |
-| Server Components | 2 @ 10 | 20 | Server-side scripts for managing mobile interaction and hike data |
-| **Total Object Points** | | 76 | |
+| Artifacts | Complexity | 1-3 (Difficulty) |
+|-----------|------------|---------------|
+| **Screens** |  | 12 | 
+| Login | Simple | 1 |  
+| Create Account | Moderate | 2 | 
+| Metrics | Hard | 3 | 
+| Subscritptions | Moderate | 2 | 
+| Transactions  | Moderate | 2 | 
+| Entry | Moderate | 2 | 
+| 
+| **3GL Components** | | 8.5 | 
+| Database Connections | Moderate | 2 | 
+| React Native | Semi-Moderate | 1.5 | 
+| Expo | Simple | 1 | 
+| Azure | Hard | 3 | 
+| BCrypt | Simple | 1 | 
+| 
+| **Total Difficulty Points** | | 20.5 | 
+
 
 
 <div name="architectural-design">
