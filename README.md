@@ -120,14 +120,12 @@ The following effort estimate has been calculated using NOP (nominal object poin
 | Subscritptions | Moderate | 2 | 
 | Transactions  | Moderate | 2 | 
 | Entry | Moderate | 2 | 
-| 
 | **3GL Components** | | 8.5 | 
 | Database Connections | Moderate | 2 | 
 | React Native | Semi-Moderate | 1.5 | 
 | Expo | Simple | 1 | 
 | Azure | Hard | 3 | 
-| BCrypt | Simple | 1 | 
-| 
+| BCrypt | Simple | 1 |  
 | **Total Difficulty Points** | | 20.5 | 
 
 
