@@ -133,8 +133,8 @@ The following effort estimate has been calculated using NOP (nominal object poin
 <div name="architectural-design">
  <h2>Architectural Design</h2>
 </div>
-The following deployment diagram represents the architectural (high-level) design of the ODHKr application.
+The following deployment diagram represents the architectural (high-level) design of the KiiP application.
 
 ![image](https://raw.githubusercontent.com/wildharpo/ozarks-day-hiker-app/refs/heads/main/Documents/Diagrams/DeploymentDiagram.jpg)
 
-The basic architecture of the ODHKr app has four components: a component that runs on a mobile device, a map server, an administrative component, and a server component. Components will communicate over the Internet. The details of the architecture are specified in Figure 7.5. Notice that the administrative componet-server component communication is specified at two levels. The devices communicate using the Internet while the browser and the web server communicate using the http protocol.
+The basic architecture of the KiiP app has ___ components: a component that runs on a mobile device, an administrative component, and a server component. Components will communicate over the Internet. The details of the architecture are specified in Figure 7.5. Notice that the administrative componet-server component communication is specified at two levels. The devices communicate using the Internet while the browser and the web server communicate using the http protocol.
