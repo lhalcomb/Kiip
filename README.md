@@ -25,7 +25,7 @@ The following actors and use cases are identified for the KiiP (Key Investment &
 | User | A *User* is a person who uses the app to input and view finance metrics. |
 
 #### Use Cases
-<img src="https://github.com/lhalcomb/Kiip/blob/main/UseCaseDiagram.jpg" width="350" height="300" />
+<img src="https://github.com/lhalcomb/Kiip/blob/main/img/UseCaseDiagram.jpg" width="350" height="300" />
 
 This diagram represents the following user stories:
  
@@ -135,6 +135,5 @@ The following effort estimate has been calculated using NOP (nominal object poin
 </div>
 The following deployment diagram represents the architectural (high-level) design of the KiiP application.
 
-![image](https://raw.githubusercontent.com/wildharpo/ozarks-day-hiker-app/refs/heads/main/Documents/Diagrams/DeploymentDiagram.jpg)
-
+![image](https://github.com/lhalcomb/Kiip/blob/main/img/architecturalDesignKiiP.png)
 The basic architecture of the KiiP app has ___ components: a component that runs on a mobile device, an administrative component, and a server component. Components will communicate over the Internet. The details of the architecture are specified in Figure 7.5. Notice that the administrative componet-server component communication is specified at two levels. The devices communicate using the Internet while the browser and the web server communicate using the http protocol.
