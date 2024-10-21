@@ -136,4 +136,4 @@ The following effort estimate has been calculated using NOP (nominal object poin
 The following deployment diagram represents the architectural (high-level) design of the KiiP application.
 
 ![image](https://github.com/lhalcomb/Kiip/blob/main/img/architecturalDesignKiiP.png)
-The basic architecture of the KiiP app has ___ components: a component that runs on a mobile device, an administrative component, and a server component. Components will communicate over the Internet. The details of the architecture are specified in Figure 7.5. Notice that the administrative componet-server component communication is specified at two levels. The devices communicate using the Internet while the browser and the web server communicate using the http protocol.
+The basic architecture of the KiiP app has 2 components: a component that runs on a mobile device and a server component. Components will communicate over the Internet, providing the user with their stored financial info.
