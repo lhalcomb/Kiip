@@ -8,7 +8,6 @@ import {
     SafeAreaView,
     Image ,
     Platform} from "react-native";
-//import {Image} from "expo-image";
 import {useRouter} from "expo-router";
 
 import * as Linking from "expo-linking";
