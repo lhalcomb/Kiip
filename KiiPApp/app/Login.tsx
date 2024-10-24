@@ -1,4 +1,3 @@
-
 import {
     View, 
     Text, 
@@ -34,10 +33,10 @@ function Login()
         keyboardVerticalOffset={Platform.OS === 'ios' ? 100: 0} 
         style={styles.container1}>
         <View style={styles.container1}>
-            <Image
+            {/* <Image
                     source = {require("../assets/images/kiiplogo.png")}
                     style = {styles.logo} 
-                />
+                /> */}
             <View style={styles.form}>
                 <View>
                     
