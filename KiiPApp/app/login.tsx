@@ -33,13 +33,12 @@ function Login()
         keyboardVerticalOffset={Platform.OS === 'ios' ? 100: 0} 
         style={styles.container1}>
         <View style={styles.container1}>
-            {/* <Image
+            <Image
                     source = {require("../assets/images/kiiplogo.png")}
                     style = {styles.logo} 
-                /> */}
+                />
             <View style={styles.form}>
                 <View>
-                    
                     <TextInput 
                     style={styles.inpEle}
                     placeholder='email address'
@@ -55,7 +54,7 @@ function Login()
                     onChangeText={setPassword}/>
                 </View>
                 <Pressable style={styles.signInButton}/* onPress={loginOnPress}*/ >
-                <Text style={styles.signInText}>Sign In</Text>
+                <Text style={styles.signInText}>login</Text>
                 </Pressable>
                 <View style= {styles.errCont}>
                     {Error &&  <Text style={styles.error}> {Error} </Text> }
@@ -74,6 +73,7 @@ function Login()
         </KeyboardAvoidingView>
      )
 }
+
 const styles = StyleSheet.create({
   container1: {
     flex: 1,
@@ -82,8 +82,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   }, 
   logo: {
-    width: 150,   // Adjust width as needed
-    height: 100,  // Adjust height as needed
+    width: 272,   // Adjust width as needed
+    height: 159,  // Adjust height as needed
     alignSelf: 'center',  // Center the logo
     marginBottom: 20,  // Add some spacing below the logo
     },
