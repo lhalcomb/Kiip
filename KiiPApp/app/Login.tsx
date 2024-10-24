@@ -9,7 +9,7 @@ import {
     Image ,
     Platform} from "react-native";
 //import {Image} from "expo-image";
-import {Feather} from "@expo/vector-icons";
+import {useRouter} from "expo-router";
 
 import * as Linking from "expo-linking";
 import { useEffect, useState } from 'react';
@@ -25,7 +25,16 @@ function Login()
     const [password, setPassword] = useState("");
     const [Error, setError] = useState("");
 
-   
+   const router = useRouter();
+
+   const loginOnPress = () => {
+        if (email && password) {
+            setError("");
+            router.push("/Transactions");  // Navigate to 'Home' page
+        } else {
+            setError("Please enter both email and password");
+        }
+    };  
 
     return(
         <KeyboardAvoidingView 
@@ -53,7 +62,7 @@ function Login()
                     autoCapitalize='none'
                     onChangeText={setPassword}/>
                 </View>
-                <Pressable style={styles.signInButton}/* onPress={loginOnPress}*/ >
+                <Pressable style={styles.signInButton} onPress={loginOnPress} >
                 <Text style={styles.signInText}>login</Text>
                 </Pressable>
                 <View style= {styles.errCont}>
@@ -61,14 +70,7 @@ function Login()
                 </View>
                 
             </View>
-            <View style={styles.container2}>
-                <Feather name= 'check-square' size = {24} color = 'black' />
-                <Text style={styles.choice}>Stay Logged In</Text>
-                <Text style={styles.choice}>Forgot Password?</Text>
-                <Text style={styles.choice}>Create Account</Text>
-            </View>
-            
-
+    
         </View>
         </KeyboardAvoidingView>
      )
@@ -82,10 +84,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   }, 
   logo: {
-    width: 272,   // Adjust width as needed
-    height: 159,  // Adjust height as needed
+    width: 269,   // Adjust width as needed
+    height: 153,  // Adjust height as needed
     alignSelf: 'center',  // Center the logo
-    marginBottom: 20,  // Add some spacing below the logo
+ 
     },
   textStyle: {
       fontSize: 24,
