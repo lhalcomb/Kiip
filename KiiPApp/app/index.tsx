@@ -6,6 +6,7 @@ import {
     StyleSheet, 
     KeyboardAvoidingView,
     SafeAreaView,
+    Alert,
     Image ,
     Platform} from "react-native";
 import {useRouter} from "expo-router";
@@ -28,8 +29,9 @@ function Login()
 
    const loginOnPress = () => {
         if (email && password) {
+            Alert.alert(`Logged in with: ${email} and ${password}`)
             setError("");
-            router.push("/Transactions");  // Navigate to 'Home' page
+            router.push("./Transactions");  // Navigate to 'Home' page
         } else {
             setError("Please enter both email and password");
         }
