@@ -8,7 +8,8 @@ import {
     SafeAreaView,
     Alert,
     Image ,
-    Platform} from "react-native";
+    Platform
+} from "react-native";
 import {useRouter} from "expo-router";
 
 import * as Linking from "expo-linking";
@@ -17,31 +18,45 @@ import colors from '../config/colors';
 
 //import ExpoSecureStore, {getItemAsync, setItemAsync} from 'expo-secure-store';
 
-
-
-function Login() 
-{
+function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [Error, setError] = useState("");
 
-   const router = useRouter();
+    const router = useRouter();
 
-   const loginOnPress = () => {
+    const loginOnPress = async () => {
         if (email && password) {
-            Alert.alert(`Logged in with: ${email} and ${password}`)
+            //Alert.alert(`Logged in with: ${email} and ${password}`)
             setError("");
-            router.push("./Transactions");  // Navigate to 'Home' page
+
+            const res = await fetch('http://10.0.2.2:3000/auth', {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    "email": email, 
+                    "password": password
+                })
+            });
+
+            if (res.ok) {
+                router.push("./Transactions");  // Navigate to 'Home' page
+            }
+
+            setError("Incorrect email or password");
         } else {
             setError("Please enter both email and password");
         }
-    };  
+    };
 
-    return(
+    return (
         <KeyboardAvoidingView 
-        behavior='padding' 
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 100: 0} 
-        style={styles.container1}>
+            behavior='padding' 
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 100: 0} 
+            style={styles.container1}>
         <View style={styles.container1}>
             <Image
                     source = {require("../assets/images/kiiplogo.png")}
@@ -120,7 +135,6 @@ const styles = StyleSheet.create({
       justifyContent: "center",
   },
   error:{
-      
       marginTop: 30,
       color:"red",
   },
@@ -136,8 +150,6 @@ const styles = StyleSheet.create({
       fontSize: 20,
       padding: 10
   }
-
- 
-  });
+});
 
 export default Login;
