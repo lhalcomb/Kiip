@@ -30,7 +30,7 @@ function Login() {
             //Alert.alert(`Logged in with: ${email} and ${password}`)
             setError("");
 
-            const res = await fetch('http://10.0.2.2:3000/auth', {
+            const res = await fetch(`http://${process.env.IP}:3000/auth`, {
                 method: "POST",
                 headers: {
                     "Accept": "application/json",
