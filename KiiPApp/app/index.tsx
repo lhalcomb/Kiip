@@ -38,106 +38,127 @@ function Login()
     };  
 
     return(
-        <KeyboardAvoidingView 
-        behavior='padding' 
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 100: 0} 
-        style={styles.container1}>
-        <View style={styles.container1}>
-            <Image
-                    source = {require("../assets/images/kiiplogo.png")}
-                    style = {styles.logo} 
-                />
-            <View style={styles.form}>
-                <View>
-                    <TextInput 
-                    style={styles.inpEle}
-                    placeholder='email address'
-                    value={email}
-                    autoCapitalize='none'
-                    onChangeText={setEmail}/>
-                    <TextInput 
-                    style={styles.inpEle}
-                    placeholder='password' 
-                    secureTextEntry
-                    value={password}
-                    autoCapitalize='none'
-                    onChangeText={setPassword}/>
-                </View>
-                <Pressable style={styles.signInButton} onPress={loginOnPress} >
-                <Text style={styles.signInText}>login</Text>
-                </Pressable>
-                <View style= {styles.errCont}>
-                    {Error &&  <Text style={styles.error}> {Error} </Text> }
-                </View>
-                
-            </View>
-    
+        <View style={styles.pageContainer}>
+
+        <Image
+            source = {require("../assets/images/kiiplogo.png")}
+            style = {styles.logo} 
+        />
+
+        <View style={styles.inpBox}>
+            <TextInput 
+                style={styles.inpEle}
+                placeholder='email address'
+                value={email}
+                autoCapitalize='none'
+                onChangeText={setEmail}/>
+            <TextInput 
+                style={styles.inpEle}
+                placeholder='password' 
+                secureTextEntry
+                value={password}
+                autoCapitalize='none'
+                onChangeText={setPassword}/>
+
+            <Pressable style={styles.loginButton} onPress={loginOnPress} >
+                <Text style={styles.loginText}>login</Text>
+            </Pressable>
         </View>
-        </KeyboardAvoidingView>
+
+        <View style = {styles.errCont}>
+            {Error &&  <Text style={styles.error}> {Error} </Text> }
+        </View>
+
+        <View style = {styles.lgCircle}/>
+        <View style = {styles.smCircle}/>
+
+        </View>
      )
 }
 
 const styles = StyleSheet.create({
-  container1: {
+  pageContainer: {
     flex: 1,
+    flexDirection: "column",
     justifyContent: "center",
     backgroundColor: "#fff",
     paddingHorizontal: 20,
   }, 
   logo: {
-    width: 269,   // Adjust width as needed
-    height: 153,  // Adjust height as needed
-    alignSelf: 'center',  // Center the logo
- 
-    },
+    width: 269,  
+    height: 153, 
+    alignSelf: 'center',  
+    position: 'absolute',
+    top: '5%'
+  },
   textStyle: {
-      fontSize: 24,
-      fontWeight: "bold",
-      marginBottom: 16,
-    }, 
-  form: {
-      backgroundColor: "white",
-      padding: 50,
-      },
-  inpEle: {
-      width: '100%',
-      borderBottomWidth: 1,
-      height: 40,
-      marginTop: 30,
-      fontSize: 20,
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 16,
   }, 
-  signInButton: {
-      width: '100%',
-      alignItems: "center",
-      justifyContent: "center",
-      marginTop: 30,
-      height: 50,
-      backgroundColor: colors.VibrantGreen
+  inpBox: {
+    top: '5%',
+    alignItems: 'center',
+    backgroundColor: "#D9D9D9",
+    rowGap: 2,
+    height: "35%",
+    padding: 25,
+    borderRadius: 24,
+  },
+  inpEle: {
+    width: '100%',
+    minHeight: '8%',
+    backgroundColor: "white",
+    borderRadius: 15,
+    height: 40,
+    fontSize: 20,
+    paddingHorizontal: "5%",
+    marginBottom: '5%',
+  }, 
+  loginButton: {
+    width: '30%',
+    alignItems: "center",
+    borderRadius: 15,
+    justifyContent: "center",
+    height: 50,
+    backgroundColor: colors.VibrantGreen
   }, 
   errCont: {
-      width: '100%',
-      alignItems: "center",
-      justifyContent: "center",
+    width: '100%',
+    alignItems: "center",
+    justifyContent: "center",
   },
   error:{
-      
-      marginTop: 30,
-      color:"red",
+    marginTop: 30,
+    color:"red",
   },
-  signInText: {
-      fontSize: 20,
-  },
-  container2: {
-      alignItems:  "flex-start",
-      paddingLeft: 35
-      
+  loginText: {
+    fontSize: 20,
+    color: 'white',
+    fontWeight: 'bold',
   },
   choice: {
-      fontSize: 20,
-      padding: 10
-  }
-
- 
-  });
+    fontSize: 20,
+    padding: 10
+  },
+  lgCircle: {
+    position: 'absolute',
+    bottom: '-15%',
+    left: '10%',
+    width: 180,
+    height: 180,
+    borderRadius: 90,
+    backgroundColor: '#D9D9D9'
+  },
+  smCircle: {
+    position: 'absolute',
+    bottom: '10%',
+    right: '20%',
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#D9D9D9'
+  },
+});
 
 export default Login;
