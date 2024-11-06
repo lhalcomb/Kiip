@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   error:{
-    marginTop: 30,
+    marginTop: 50,
     color:"red",
   },
   loginText: {
