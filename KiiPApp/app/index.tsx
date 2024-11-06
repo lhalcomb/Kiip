@@ -45,9 +45,11 @@ function Login() {
 
             if (res.ok) {
                 router.push("./Transactions");  // Navigate to 'Home' page
+            }else{
+                setError("Incorrect email or password");
             }
 
-            setError("Incorrect email or password");
+            
         } else {
             setError("Please enter both email and password");
         }
