@@ -30,7 +30,7 @@ function Login() {
             //Alert.alert(`Logged in with: ${email} and ${password}`)
             setError("");
             const baseURL = Platform.OS == "android" ? "http://10.0.2.2:3000" : "http://localhost:3000";
-            const res = await fetch(`${baseURL}/auth`, {
+            const res = await fetch(`http://localhost:3000/auth`, {
                 method: "POST",
                 headers: {
                     "Accept": "application/json",
