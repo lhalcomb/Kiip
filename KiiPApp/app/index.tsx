@@ -30,6 +30,7 @@ function Login() {
             //Alert.alert(`Logged in with: ${email} and ${password}`)
             setError("");
 
+  
             const res = await fetch('http://10.0.2.2:3000/auth', {
                 method: "POST",
                 headers: {
@@ -144,7 +145,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   error:{
-    marginTop: 30,
+    marginTop: 50,
     color:"red",
   },
   loginText: {
