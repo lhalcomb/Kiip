@@ -29,8 +29,8 @@ function Login() {
         if (email && password) {
             //Alert.alert(`Logged in with: ${email} and ${password}`)
             setError("");
-
-            const res = await fetch(`http://${process.env.IP}:3000/auth`, {
+            const baseURL = Platform.OS == "android" ? "http://10.0.2.2:3000" : "http://localhost:3000";
+            const res = await fetch(`${baseURL}/auth`, {
                 method: "POST",
                 headers: {
                     "Accept": "application/json",
