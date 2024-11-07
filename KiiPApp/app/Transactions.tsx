@@ -1,5 +1,11 @@
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 
+interface Transactions{
+  title: string,
+  date: string, 
+  amount: string
+}
+
 function Transactions() {
   return (
     <View>
@@ -29,7 +35,7 @@ function Transactions() {
   );
 }
 
-function TransactionItem({ title, date, amount }) {
+function TransactionItem({ title, date, amount }: Transactions) {
   const isPositive = amount.startsWith("+");
   return (
     <View style={styles.transactionItem}>
