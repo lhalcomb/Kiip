@@ -29,7 +29,7 @@ function Login() {
         if (email && password) {
             //Alert.alert(`Logged in with: ${email} and ${password}`)
             setError("");
-            const baseURL = Platform.OS == "android" ? "http://10.0.2.2:3000" : "http://localhost:3000";
+            const baseURL = Platform.OS == "android" ? "http://10.0.2.2:3000" : "http://192.168.0.11:3000";
             const res = await fetch(`${baseURL}/auth`, {
                 method: "POST",
                 headers: {

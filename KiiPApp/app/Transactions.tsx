@@ -1,12 +1,34 @@
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+// app/Transactions.tsx
+import React from 'react';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Ionicons } from '@expo/vector-icons';
 
-interface Transactions{
-  title: string,
-  date: string, 
-  amount: string
+interface Transactions {
+  title: string;
+  date: string;
+  amount: string;
 }
 
-function Transactions() {
+function TransactionItem({ title, date, amount }: Transactions) {
+  const isPositive = amount.startsWith("+");
+  return (
+    <View style={styles.transactionItem}>
+      <View>
+        <Text style={styles.transactionTitle}>{title}</Text>
+        <Text style={styles.transactionDate}>{date}</Text>
+      </View>
+      <View style={styles.transactionContainer}>
+        <Text style={[styles.transactionAmount, isPositive ? styles.positive : styles.negative]}>
+          {amount}
+        </Text>
+      </View>
+    </View>
+  );
+}
+
+function HomeScreen() {
   return (
     <View>
       {/* Header */}
@@ -35,20 +57,60 @@ function Transactions() {
   );
 }
 
-function TransactionItem({ title, date, amount }: Transactions) {
-  const isPositive = amount.startsWith("+");
+function MetricsScreen() {
   return (
-    <View style={styles.transactionItem}>
-      <View>
-        <Text style={styles.transactionTitle}>{title}</Text>
-        <Text style={styles.transactionDate}>{date}</Text>
-      </View>
-      <View style={styles.transactionContainer}>
-        <Text style={[styles.transactionAmount, isPositive ? styles.positive : styles.negative]}>
-          {amount}
-        </Text>
-      </View>
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Metrics Screen</Text>
     </View>
+  );
+}
+
+function SubscriptionsScreen() {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Subscriptions Screen</Text>
+    </View>
+  );
+}
+
+const Tab = createBottomTabNavigator();
+
+export default function Transactions() {
+  return (
+    <NavigationContainer independent={true}>
+      <Tab.Navigator
+        initialRouteName="Home"
+        screenOptions={({ route }) => ({
+          headerShown: false,
+          tabBarShowLabel: false,
+          tabBarIcon: ({ focused, color}) => {
+            let iconName;
+            let iconSize = 50;
+
+            if (route.name === 'Home') {
+              iconName = focused ? 'home' : 'home-outline';
+            } else if (route.name === 'Subscriptions') {
+              iconName = focused ? 'repeat' : 'repeat-outline';
+            } else if (route.name === 'Metrics') {
+              iconName = focused ? 'stats-chart' : 'stats-chart-outline';
+            }
+
+            return <Ionicons name={iconName} size={iconSize} color={color} />;
+          },
+          tabBarActiveTintColor: '#27C12D',
+          tabBarInactiveTintColor: 'gray',
+          tabBarStyle: { 
+            position: 'absolute',
+            backgroundColor: '#D3D3D3',
+            paddingBottom: 20,
+           },
+        })}
+      >
+        <Tab.Screen name="Subscriptions" component={SubscriptionsScreen} />
+        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Metrics" component={MetricsScreen} />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 }
 
@@ -150,5 +212,3 @@ const styles = StyleSheet.create({
     color: "red",
   },
 });
-
-export default Transactions;
