@@ -1,9 +1,5 @@
 // app/Transactions.tsx
-import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Ionicons } from '@expo/vector-icons';
 
 interface Transactions {
   title: string;
@@ -28,7 +24,7 @@ function TransactionItem({ title, date, amount }: Transactions) {
   );
 }
 
-function HomeScreen() {
+function Transactions() {
   return (
     <View>
       {/* Header */}
@@ -54,63 +50,6 @@ function HomeScreen() {
         <TransactionItem title="Taco Bell" date="10/22/25 (4:15 PM)" amount="-$15.18" />
       </ScrollView>
     </View>
-  );
-}
-
-function MetricsScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Metrics Screen</Text>
-    </View>
-  );
-}
-
-function SubscriptionsScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Subscriptions Screen</Text>
-    </View>
-  );
-}
-
-const Tab = createBottomTabNavigator();
-
-export default function Transactions() {
-  return (
-    <NavigationContainer independent={true}>
-      <Tab.Navigator
-        initialRouteName="Home"
-        screenOptions={({ route }) => ({
-          headerShown: false,
-          tabBarShowLabel: false,
-          tabBarIcon: ({ focused, color}) => {
-            let iconName;
-            let iconSize = 50;
-
-            if (route.name === 'Home') {
-              iconName = focused ? 'home' : 'home-outline';
-            } else if (route.name === 'Subscriptions') {
-              iconName = focused ? 'repeat' : 'repeat-outline';
-            } else if (route.name === 'Metrics') {
-              iconName = focused ? 'stats-chart' : 'stats-chart-outline';
-            }
-
-            return <Ionicons name={iconName} size={iconSize} color={color} />;
-          },
-          tabBarActiveTintColor: '#27C12D',
-          tabBarInactiveTintColor: 'gray',
-          tabBarStyle: { 
-            position: 'absolute',
-            backgroundColor: '#D3D3D3',
-            paddingBottom: 20,
-           },
-        })}
-      >
-        <Tab.Screen name="Subscriptions" component={SubscriptionsScreen} />
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Metrics" component={MetricsScreen} />
-      </Tab.Navigator>
-    </NavigationContainer>
   );
 }
 
@@ -212,3 +151,5 @@ const styles = StyleSheet.create({
     color: "red",
   },
 });
+
+export default Transactions;

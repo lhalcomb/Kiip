@@ -29,7 +29,7 @@ function Login() {
         if (email && password) {
             //Alert.alert(`Logged in with: ${email} and ${password}`)
             setError("");
-            const baseURL = Platform.OS == "android" ? "http://10.0.2.2:3000" : "http://localhost:3000";
+            const baseURL = Platform.OS == "android" ? "http://10.0.2.2:3000" : "http://10.15.15.131:3000";
             const res = await fetch(`${baseURL}/auth`, {
                 method: "POST",
                 headers: {
@@ -43,12 +43,10 @@ function Login() {
             });
 
             if (res.ok) {
-                router.push("./Transactions");  // Navigate to 'Home' page
+                router.push("./tabs/transactions");  // Navigate to 'Home' page
             }else{
                 setError("Incorrect email or password");
-            }
-
-            
+            }   
         } else {
             setError("Please enter both email and password");
         }
