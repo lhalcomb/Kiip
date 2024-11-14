@@ -1,5 +1,5 @@
 // app/Transactions.tsx
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
 
 interface Transactions {
   title: string;
@@ -46,8 +46,12 @@ function Transactions() {
 
       {/* Transactions List */}
       <ScrollView contentContainerStyle={styles.transactions}>
-        <TransactionItem title="Paycheck" date="10/22/25 (11:23 AM)" amount="+$481.23" />
-        <TransactionItem title="Taco Bell" date="10/22/25 (4:15 PM)" amount="-$15.18" />
+        <Pressable onPress={() => {console.log("Clicked!")}}>
+          <TransactionItem title="Paycheck" date="10/22/25 (11:23 AM)" amount="+$481.23" />
+        </Pressable>
+        <Pressable onPress={() => {console.log("Clicked!")}}>
+          <TransactionItem title="Taco Bell" date="10/22/25 (4:15 PM)" amount="-$15.18" />
+        </Pressable>
       </ScrollView>
     </View>
   );
