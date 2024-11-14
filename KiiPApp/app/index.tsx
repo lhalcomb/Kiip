@@ -31,7 +31,7 @@ function Login() {
             setError("");
             //A Local IP - 10.15.15.131. Need to discover way to get this from the app
             const baseURL = Platform.OS == "android" ? "http://10.0.2.2:3000" : "http://localhost:3000";
-            const res = await fetch(`${baseURL}/auth`, {
+            const res = await fetch(`http://localhost:3000/auth`, {
                 method: "POST",
                 headers: {
                     "Accept": "application/json",
@@ -45,8 +45,10 @@ function Login() {
 
             if (res.ok) {
                 router.push("./tabs/transactions");  // Navigate to 'Home' page
+                
             }else{
                 setError("Incorrect email or password");
+                console.log(res.status);
             }   
         } else {
             setError("Please enter both email and password");
