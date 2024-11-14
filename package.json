@@ -1,5 +1,8 @@
 {
   "dependencies": {
     "@react-navigation/native": "^6.1.18"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12"
   }
 }
