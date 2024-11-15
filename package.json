@@ -2,6 +2,7 @@
   "dependencies": {
     "@react-navigation/native": "^6.1.18",
     "expo-router": "^4.0.5",
+    "expo-secure-store": "^14.0.0",
     "typescript": "^5.6.3"
   },
   "devDependencies": {

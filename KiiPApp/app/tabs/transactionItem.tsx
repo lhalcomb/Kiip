@@ -6,21 +6,23 @@ interface Transactions {
     amount: string;
   }
 
-function TransactionItem({ title, date, amount }: Transactions) {
-const isPositive = amount.startsWith("+");
-return (
-    <View style={styles.transactionItem}>
-    <View>
-        <Text style={styles.transactionTitle}>{title}</Text>
-        <Text style={styles.transactionDate}>{date}</Text>
-    </View>
-    <View style={styles.transactionContainer}>
-        <Text style={[styles.transactionAmount, isPositive ? styles.positive : styles.negative]}>
-        {amount}
-        </Text>
-    </View>
-    </View>
-);
+export function TransactionItem({ title, date, amount }: Transactions) {
+    const isPositive = amount.startsWith("+");
+
+
+    return (
+        <View style={styles.transactionItem}>
+        <View>
+            <Text style={styles.transactionTitle}>{title}</Text>
+            <Text style={styles.transactionDate}>{date}</Text>
+        </View>
+        <View style={styles.transactionContainer}>
+            <Text style={[styles.transactionAmount, isPositive ? styles.positive : styles.negative]}>
+            {amount}
+            </Text>
+        </View>
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({

@@ -1,30 +1,56 @@
 // app/Transactions.tsx
-import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Pressable, Platform } from 'react-native';
+import { TransactionItem } from './transactionItem';
+import * as SecureStore from 'expo-secure-store';
+import { useEffect, useState } from 'react';
+import {getUrl} from '../index';
 
 interface Transactions {
+  trans_id: number;
   title: string;
-  date: string;
-  amount: string;
+  date: Date ;
+  amount: number;
 }
 
-function TransactionItem({ title, date, amount }: Transactions) {
-  const isPositive = amount.startsWith("+");
-  return (
-    <View style={styles.transactionItem}>
-      <View>
-        <Text style={styles.transactionTitle}>{title}</Text>
-        <Text style={styles.transactionDate}>{date}</Text>
-      </View>
-      <View style={styles.transactionContainer}>
-        <Text style={[styles.transactionAmount, isPositive ? styles.positive : styles.negative]}>
-          {amount}
-        </Text>
-      </View>
-    </View>
-  );
-}
+const formatDate = (date:  Date ) => 
+  {
+
+    const Newdate = new Date(date);
+    const options: Intl.DateTimeFormatOptions = { /*weekday: 'long', */  year: 'numeric', month: 'long', day: 'numeric' };
+
+    return Newdate.toLocaleDateString(undefined, options);
+
+  }
 
 function Transactions() {
+
+  const getTransactions = async () => {
+    const token = await SecureStore.getItemAsync("token");
+    const address = await getUrl();
+    const res = await fetch(`${address}/transactions`, {
+        method: "POST",
+        headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            "token": token
+        })
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      console.log(data);
+    } else {
+        console.log(res.status);
+    }   
+
+  }
+
+  useEffect( () => {
+    getTransactions();
+  },[]);
+
   return (
     <View>
       {/* Header */}

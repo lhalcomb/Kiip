@@ -13,10 +13,15 @@ import {
 import {useRouter} from "expo-router";
 
 import * as Linking from "expo-linking";
+//import ExpoSecureStore, {getItemAsync, setItemAsync} from 'expo-secure-store';
+import * as SecureStore from 'expo-secure-store';
 import { useEffect, useState } from 'react';
 import colors from '../config/colors';
 
-//import ExpoSecureStore, {getItemAsync, setItemAsync} from 'expo-secure-store';
+export async function getUrl() {
+  const ip = await Linking.getInitialURL();
+  return `http${ip?.substring(3, ip.length - 4)}3000`;
+}
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -27,11 +32,9 @@ function Login() {
 
     const loginOnPress = async () => {
         if (email && password) {
-            //Alert.alert(`Logged in with: ${email} and ${password}`)
             setError("");
-            //A Local IP - 10.15.15.131. Need to discover way to get this from the app
-            const baseURL = Platform.OS == "android" ? "http://10.0.2.2:3000" : "http://localhost:3000";
-            const res = await fetch(`${baseURL}/auth`, {
+            const address = await getUrl();
+            const res = await fetch(`${address}/auth`, {
                 method: "POST",
                 headers: {
                     "Accept": "application/json",
@@ -44,6 +47,9 @@ function Login() {
             });
 
             if (res.ok) {
+                const data = await res.json();
+                const token = data.token;
+                await SecureStore.setItemAsync("token", token);
                 router.push("./tabs/transactions");  // Navigate to 'Home' page
                 
             }else{
