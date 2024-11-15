@@ -31,7 +31,7 @@ function Login() {
             setError("");
             //A Local IP - 10.15.15.131. Need to discover way to get this from the app
             const baseURL = Platform.OS == "android" ? "http://10.0.2.2:3000" : "http://localhost:3000";
-            const res = await fetch(`http://localhost:3000/auth`, {
+            const res = await fetch(`${baseURL}/auth`, {
                 method: "POST",
                 headers: {
                     "Accept": "application/json",
