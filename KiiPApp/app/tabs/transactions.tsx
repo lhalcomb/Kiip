@@ -4,25 +4,22 @@ import { TransactionItem } from './transactionItem';
 import * as SecureStore from 'expo-secure-store';
 import { useEffect, useState } from 'react';
 import {getUrl} from '../index';
+import {ITransactions} from "../../api/ITransactions";
 
-interface Transactions {
-  trans_id: number;
-  title: string;
-  date: Date ;
-  amount: number;
-}
 
-const formatDate = (date:  Date ) => 
+
+export const formatDate = (date:  Date ) => 
   {
 
-    const Newdate = new Date(date);
+   
     const options: Intl.DateTimeFormatOptions = { /*weekday: 'long', */  year: 'numeric', month: 'long', day: 'numeric' };
 
-    return Newdate.toLocaleDateString(undefined, options);
+    return date.toLocaleDateString(undefined, options);
 
   }
 
 function Transactions() {
+  const [transactions, setTransactions] = useState<ITransactions[]>([]);
 
   const getTransactions = async () => {
     const token = await SecureStore.getItemAsync("token");
@@ -41,6 +38,7 @@ function Transactions() {
     if (res.ok) {
       const data = await res.json();
       console.log(data);
+      setTransactions(data);
     } else {
         console.log(res.status);
     }   
@@ -73,10 +71,10 @@ function Transactions() {
       {/* Transactions List */}
       <ScrollView contentContainerStyle={styles.transactions}>
         <Pressable onPress={() => {console.log("Clicked!")}}>
-          <TransactionItem title="Paycheck" date="10/22/25 (11:23 AM)" amount="+$481.23" />
+          <TransactionItem title="Paycheck" date= "10/22/25 (11:23 AM)" amount = {481.23} />
         </Pressable>
         <Pressable onPress={() => {console.log("Clicked!")}}>
-          <TransactionItem title="Taco Bell" date="10/22/25 (4:15 PM)" amount="-$15.18" />
+          <TransactionItem title="Taco Bell" date= {transactions.date}amount = {-15.18}  />
         </Pressable>
       </ScrollView>
     </View>
