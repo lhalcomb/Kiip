@@ -13,7 +13,7 @@ export function TransactionItem({ title, date, amount }: ITransactions) {
         </View>
         <View style={styles.transactionContainer}>
         <Text style={[styles.transactionAmount, isPositive ? styles.positive : styles.negative]}>
-            {isPositive ? `+ ${amount.toFixed(2)} ` : `- ${Math.abs(amount).toFixed(2)}` }
+            {isPositive ? `+ ${amount} ` : `- ${Math.abs(amount)}` }
         </Text>
         </View>
         </View>

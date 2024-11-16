@@ -8,11 +8,11 @@ import {ITransactions} from "../../api/ITransactions";
 
 
 
-export const formatDate = (date:  Date ) => 
+export const formatDate = (sqldate:  Date ) => 
   {
 
-   
-    const options: Intl.DateTimeFormatOptions = { /*weekday: 'long', */  year: 'numeric', month: 'long', day: 'numeric' };
+    const date = new Date(sqldate);
+    const options: Intl.DateTimeFormatOptions = { /*weekday: 'long', */  year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit' };
 
     return date.toLocaleDateString(undefined, options);
 
@@ -60,7 +60,8 @@ function Transactions() {
 
   const handleSubmit = () => {
     const now = new Date();
-    const formattedDate = `${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear().toString().slice(2)} (${now.getHours() % 12 || 12}:${now.getMinutes() < 10 ? "0" + now.getMinutes() : now.getMinutes()} ${now.getHours() >= 12 ? "PM" : "AM"})`;
+    //const formattedDate = `${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear().toString().slice(2)} (${now.getHours() % 12 || 12}:${now.getMinutes() < 10 ? "0" + now.getMinutes() : now.getMinutes()} ${now.getHours() >= 12 ? "PM" : "AM"})`;
+    const formattedDate = (formatDate(now));
     setDate(formattedDate);
     toggleModal();
   };
@@ -94,7 +95,7 @@ function Transactions() {
           <Pressable key={index}>
             <TransactionItem
               title={transaction.title}
-              date={transaction.date}
+              date={formatDate(transaction.date)}
               amount={transaction.amount}
             />
           </Pressable>

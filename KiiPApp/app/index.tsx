@@ -55,6 +55,7 @@ function Login() {
             }else{
                 setError("Incorrect email or password");
                 console.log(res.status);
+                console.log(password);
             }   
         } else {
             setError("Please enter both email and password");

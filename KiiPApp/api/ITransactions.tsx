@@ -1,7 +1,6 @@
 export interface ITransactions {
-    trans_id: number;
     title: string;
-    date: Date ;
+    date: Date;
     amount: number;
   }
 
