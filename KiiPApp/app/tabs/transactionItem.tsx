@@ -2,7 +2,6 @@ import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
 import {ITransactions} from "../../api/ITransactions";
 import {formatDate} from "./transactions";
 
-
 export function TransactionItem({ title, date, amount }: ITransactions) {
     const isPositive = (amount >= 0);
 
@@ -13,9 +12,9 @@ export function TransactionItem({ title, date, amount }: ITransactions) {
             <Text style={styles.transactionDate}>{date}</Text>
         </View>
         <View style={styles.transactionContainer}>
-            <Text style={[styles.transactionAmount, isPositive ? styles.positive : styles.negative]}>
+        <Text style={[styles.transactionAmount, isPositive ? styles.positive : styles.negative]}>
             {isPositive ? `+ ${amount.toFixed(2)} ` : `- ${Math.abs(amount).toFixed(2)}` }
-            </Text>
+        </Text>
         </View>
         </View>
     );

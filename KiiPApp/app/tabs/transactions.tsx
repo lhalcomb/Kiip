@@ -1,5 +1,5 @@
 // app/Transactions.tsx
-import { View, Text, StyleSheet, ScrollView, Pressable, Platform } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Pressable, Modal, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { TransactionItem } from './transactionItem';
 import * as SecureStore from 'expo-secure-store';
 import { useEffect, useState } from 'react';
@@ -20,40 +20,60 @@ export const formatDate = (date:  Date ) =>
 
 function Transactions() {
   const [transactions, setTransactions] = useState<ITransactions[]>([]);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [title, setTitle] = useState("");
+  const [amount, setAmount] = useState("");
+  const [description, setDescription] = useState("");
+  const [date, setDate] = useState("");
 
   const getTransactions = async () => {
     const token = await SecureStore.getItemAsync("token");
     const address = await getUrl();
     const res = await fetch(`${address}/transactions`, {
-        method: "POST",
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            "token": token
-        })
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        token: token,
+      }),
     });
 
     if (res.ok) {
       const data = await res.json();
-      console.log(data);
       setTransactions(data);
     } else {
-        console.log(res.status);
-    }   
+      console.error(res.status);
+    }
+  };
 
-  }
+  const toggleModal = () => {
+    if (isModalVisible) {
+      setTitle("");
+      setAmount("");
+      setDescription("");
+      setDate("");
+    }
+    setModalVisible(!isModalVisible);
+  };
 
-  useEffect( () => {
+  const handleSubmit = () => {
+    const now = new Date();
+    const formattedDate = `${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear().toString().slice(2)} (${now.getHours() % 12 || 12}:${now.getMinutes() < 10 ? "0" + now.getMinutes() : now.getMinutes()} ${now.getHours() >= 12 ? "PM" : "AM"})`;
+    setDate(formattedDate);
+    toggleModal();
+  };
+
+  useEffect(() => {
     getTransactions();
-  },[]);
+  }, []);
 
   return (
     <View>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.headerText}>Home</Text>
+        <Text style={styles.headerText}>Transactions</Text>
         <Text style={styles.menuIcon}>•••</Text>
       </View>
 
@@ -63,20 +83,72 @@ function Transactions() {
           <Text style={styles.balanceLabel}>Balance:</Text>
           <Text style={styles.balanceAmount}>$2,120.09</Text>
         </View>
-        <View style={styles.addButton}>
+        <TouchableOpacity style={styles.addButton} onPress={toggleModal}>
           <Text style={styles.addButtonText}>+</Text>
-        </View>
+        </TouchableOpacity>
       </View>
 
       {/* Transactions List */}
       <ScrollView contentContainerStyle={styles.transactions}>
-        <Pressable onPress={() => {console.log("Clicked!")}}>
-          <TransactionItem title="Paycheck" date= "10/22/25 (11:23 AM)" amount = {481.23} />
-        </Pressable>
-        <Pressable onPress={() => {console.log("Clicked!")}}>
-          <TransactionItem title="Taco Bell" date= {transactions.date}amount = {-15.18}  />
-        </Pressable>
+        {transactions.map((transaction, index) => (
+          <Pressable key={index}>
+            <TransactionItem
+              title={transaction.title}
+              date={transaction.date}
+              amount={transaction.amount}
+            />
+          </Pressable>
+        ))}
       </ScrollView>
+
+      {/* Modal for Adding Transactions */}
+      <Modal
+        visible={isModalVisible}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={toggleModal}
+      >
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContainer}>
+              {/* Cancel Button */}
+              <TouchableOpacity style={styles.cancelButton} onPress={toggleModal}>
+                <Text style={styles.cancelButtonText}>Cancel</Text>
+              </TouchableOpacity>
+
+              <TextInput
+                style={[styles.input, styles.titleBox]}
+                placeholder="Transaction Title"
+                placeholderTextColor="#D9D9D9"
+                value={title}
+                onChangeText={setTitle}
+              />
+              <TextInput
+                style={[styles.input, styles.amountBox]}
+                placeholder="(+,-) $0.00"
+                placeholderTextColor="#D9D9D9"
+                value={amount}
+                onChangeText={setAmount}
+              />
+              <TextInput
+                style={[styles.input, styles.descriptionBox]}
+                placeholder="Description"
+                placeholderTextColor="#D9D9D9"
+                value={description}
+                onChangeText={setDescription}
+                multiline={true}
+                textAlignVertical="top"
+                numberOfLines={4}
+              />
+
+              {/* Submit Button */}
+              <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+                <Text style={styles.submitButtonText}>Add Transaction</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
     </View>
   );
 }
@@ -177,6 +249,74 @@ const styles = StyleSheet.create({
   },
   negative: {
     color: "red",
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)", 
+  },
+  modalContainer: {
+    width: '90%', 
+    backgroundColor: "#D9D9D9",
+    borderRadius: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 15, 
+    alignItems: "center", 
+  },
+  cancelButton: {
+    position: "absolute",
+    top: -45, 
+    right: 15,
+    backgroundColor: "black", 
+    borderRadius: 20,
+    paddingVertical: 10, 
+    paddingHorizontal: 20, 
+    zIndex: 10,
+  },
+  cancelButtonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold", 
+    textTransform: "uppercase",
+  },
+  input: {
+    width: "100%", 
+    borderWidth: 1,
+    borderColor: "#D9D9D9",
+    borderRadius: 8,
+    padding: 10,
+    marginBottom: 10,
+    fontSize: 16,
+    backgroundColor: "white", 
+  },
+  submitButton: {
+    width: "90%", 
+    backgroundColor: "#27C12D", 
+    borderRadius: 20,
+    paddingVertical: 15,
+    alignItems: "center",
+    marginTop: 10,
+    top: 70,
+  },
+  submitButtonText: {
+    color: "white", 
+    fontSize: 16,
+    fontWeight: "bold",
+    textTransform: "uppercase", 
+  },
+  titleBox: { 
+    marginBottom: 10 
+  },
+  amountBox: {
+    marginBottom: 10,
+    width: 125,
+    alignSelf: "flex-start", 
+  },  
+  descriptionBox: {
+    height: 100,
+    textAlignVertical: "top",
+    marginBottom: -60, 
   },
 });
 
