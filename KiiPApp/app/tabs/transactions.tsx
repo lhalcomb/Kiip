@@ -59,11 +59,7 @@ function Transactions() {
   };
 
   const handleSubmit = () => {
-    const now = new Date();
-    const formattedDate = `${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear().toString().slice(2)} (${now.getHours() % 12 || 12}:${now.getMinutes() < 10 ? "0" + now.getMinutes() : now.getMinutes()} ${now.getHours() >= 12 ? "PM" : "AM"})`;
-    setDate(formattedDate);
     toggleModal();
-    console.log(`You added the following transaction: ${title}, ${amount}, ${formattedDate}, ${description}`)
   };
 
   useEffect(() => {
