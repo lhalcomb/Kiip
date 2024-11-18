@@ -64,7 +64,6 @@ function Transactions() {
     const formattedDate = (formatDate(now));
     setDate(formattedDate);
     toggleModal();
-    console.log(`You added the following transaction: ${title}, ${amount}, ${formattedDate}, ${description}`)
   };
 
   useEffect(() => {
