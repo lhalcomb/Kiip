@@ -24,7 +24,6 @@ function Transactions() {
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
-  const [date, setDate] = useState("");
 
   const getTransactions = async () => {
     const token = await SecureStore.getItemAsync("token");
