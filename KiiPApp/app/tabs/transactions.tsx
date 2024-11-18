@@ -53,7 +53,6 @@ function Transactions() {
       setTitle("");
       setAmount("");
       setDescription("");
-      setDate("");
     }
     setModalVisible(!isModalVisible);
   };
