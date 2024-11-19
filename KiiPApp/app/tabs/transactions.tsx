@@ -25,7 +25,6 @@ function Transactions() {
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
-  const [date, setDate] = useState("");
 
   const getTransactions = async () => {
     const token = await SecureStore.getItemAsync("token");
@@ -55,16 +54,11 @@ function Transactions() {
       setTitle("");
       setAmount("");
       setDescription("");
-      setDate("");
     }
     setModalVisible(!isModalVisible);
   };
 
   const handleSubmit = () => {
-    const now = new Date();
-    //const formattedDate = `${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear().toString().slice(2)} (${now.getHours() % 12 || 12}:${now.getMinutes() < 10 ? "0" + now.getMinutes() : now.getMinutes()} ${now.getHours() >= 12 ? "PM" : "AM"})`;
-    const formattedDate = (formatDate(now));
-    setDate(formattedDate);
     toggleModal();
   };
 
