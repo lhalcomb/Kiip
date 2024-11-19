@@ -5,6 +5,7 @@ import * as SecureStore from 'expo-secure-store';
 import { useEffect, useState } from 'react';
 import {getUrl} from '../index';
 import {ITransactions} from "../../api/ITransactions";
+import calculateBalance from "@/components/balanceCalculator";
 
 
 
@@ -46,6 +47,7 @@ function Transactions() {
     } else {
       console.error(res.status);
     }
+    
   };
 
   const toggleModal = () => {
@@ -82,21 +84,22 @@ function Transactions() {
       <View style={styles.balanceSection}>
         <View style={styles.balanceTextContainer}>
           <Text style={styles.balanceLabel}>Balance:</Text>
-          <Text style={styles.balanceAmount}>$2,120.09</Text>
+          <Text style={styles.balanceAmount}>$ {calculateBalance(transactions)}</Text>
         </View>
         <TouchableOpacity style={styles.addButton} onPress={toggleModal}>
           <Text style={styles.addButtonText}>+</Text>
         </TouchableOpacity>
       </View>
-
+      
       {/* Transactions List */}
       <ScrollView contentContainerStyle={styles.transactions}>
         {transactions.map((transaction, index) => (
           <Pressable key={index}>
             <TransactionItem
               title={transaction.title}
-              date={formatDate(transaction.date)}
+              date={transaction.date}
               amount={transaction.amount}
+              isPayment={transaction.isPayment}
             />
           </Pressable>
         ))}
@@ -105,7 +108,6 @@ function Transactions() {
       {/* Modal for Adding Transactions */}
       <Modal
         visible={isModalVisible}
-        animationType="slide"
         transparent={true}
         onRequestClose={toggleModal}
       >
@@ -193,7 +195,7 @@ const styles = StyleSheet.create({
   balanceAmount: {
     fontSize: 32,
     fontWeight: "bold",
-    color: "#27C12D",
+    color: "black",
   },
   addButton: {
     width: 70,
