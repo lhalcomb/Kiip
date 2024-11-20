@@ -3,5 +3,6 @@ export interface ITransactions {
     date: Date;
     amount: number;
     isPayment: Boolean;
+    description: string;
   }
 
