@@ -105,6 +105,7 @@ function Transactions() {
               title={transaction.title}
               date={transaction.date}
               amount={transaction.amount}
+              description={transaction.description}
               isPayment={transaction.isPayment}
             />
           </Pressable>
