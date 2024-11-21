@@ -54,13 +54,52 @@ function Login() {
                 
             }else{
                 setError("Incorrect email or password");
-                console.log(res.status);
-                console.log(password);
+          
             }   
         } else {
             setError("Please enter both email and password");
         }
     };
+    const checkToken = async () => {
+      // await SecureStore.setItemAsync("token", "");
+      try {
+          const token = await SecureStore.getItemAsync("token");
+          
+          if (token) {
+              // fetch /authorize
+              const address = await getUrl();
+              const res = await fetch(`${address}/checkToken`, {
+                method: "POST",
+                headers: {
+                  "Accept": "application/json",
+                  "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "token": token
+                })
+              });
+
+              if (res.ok) {
+                router.push("./tabs/transactions");
+               
+              } else {
+                await SecureStore.setItemAsync("token", "");
+                
+              }
+          }
+      } catch (error) {
+          console.error("Error checking token:", error);
+      }
+  };
+
+    useEffect(() => {
+    
+      // const token = SecureStore.getItemAsync("token");
+      // if (token) {
+      //   router.push("./tabs/transactions");
+      // }
+      checkToken();
+    }, [router]);
 
     return(
         <View style={styles.pageContainer}>

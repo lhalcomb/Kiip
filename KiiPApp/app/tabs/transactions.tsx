@@ -1,23 +1,13 @@
 // app/Transactions.tsx
 import { View, Text, StyleSheet, ScrollView, Pressable, Modal, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from "react-native";
-import { TransactionItem } from './transactionItem';
+import { TransactionItem } from '../../components/transactionItem';
 import * as SecureStore from 'expo-secure-store';
 import { useEffect, useState } from 'react';
+import {useRouter} from "expo-router";
 import {getUrl} from '../index';
 import {ITransactions} from "../../api/ITransactions";
 import calculateBalance from "@/components/balanceCalculator";
 
-
-
-export const formatDate = (sqldate:  Date ) => 
-  {
-
-    const date = new Date(sqldate);
-    const options: Intl.DateTimeFormatOptions = { /*weekday: 'long', */  year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit' };
-
-    return date.toLocaleDateString(undefined, options);
-
-  }
 
 function Transactions() {
   const [transactions, setTransactions] = useState<ITransactions[]>([]);
@@ -25,6 +15,7 @@ function Transactions() {
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
+
 
   const getTransactions = async () => {
     const token = await SecureStore.getItemAsync("token");
@@ -58,9 +49,33 @@ function Transactions() {
     setModalVisible(!isModalVisible);
   };
 
-  const handleSubmit = () => {
-    toggleModal();
-  };
+  const handleAddTransaction = async () => {
+    const token = await SecureStore.getItemAsync("token");
+    const address = await getUrl();
+    const res = await fetch(`${address}/transaction`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        token: token,
+        memo: description, 
+        title,
+        amount: Math.abs(Number(amount)), 
+        isPayment: Number(amount) < 0,
+        isRecurring: false
+      }),
+      
+    });
+
+    if (res.ok) {
+      toggleModal();
+      await getTransactions();
+    } else {
+      console.error("Error adding transaction");
+    }
+  }
 
   useEffect(() => {
     getTransactions();
@@ -139,7 +154,7 @@ function Transactions() {
               />
 
               {/* Submit Button */}
-              <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
+              <TouchableOpacity style={styles.submitButton} onPress={handleAddTransaction}>
                 <Text style={styles.submitButtonText}>Add Transaction</Text>
               </TouchableOpacity>
             </View>

@@ -1,8 +1,17 @@
 import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
-import {ITransactions} from "../../api/ITransactions";
-import {formatDate} from "./transactions";
+import {ITransactions} from "../api/ITransactions";
+
 
 export function TransactionItem({ title, date, amount, isPayment }: ITransactions) {
+    const formatDate = (sqldate:  Date ) => 
+        {
+      
+          const date = new Date(sqldate);
+          const options: Intl.DateTimeFormatOptions = { /*weekday: 'long', */  year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit' };
+      
+          return date.toLocaleDateString(undefined, options);
+      
+        }
 
     return (
         <View style={styles.transactionItem}>
