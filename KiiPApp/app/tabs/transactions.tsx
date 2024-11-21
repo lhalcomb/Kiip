@@ -11,7 +11,9 @@ import calculateBalance from "@/components/balanceCalculator";
 
 function Transactions() {
   const [transactions, setTransactions] = useState<ITransactions[]>([]);
-  const [isModalVisible, setModalVisible] = useState(false);
+  const [isAddModalVisible, setAddModalVisible] = useState(false);
+  const [isViewModalVisible, setViewModalVisible] = useState(false);
+  const [selectedTransaction, setSelectedTransaction] = useState<ITransactions | null>(null);
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
@@ -40,13 +42,23 @@ function Transactions() {
     
   };
 
-  const toggleModal = () => {
-    if (isModalVisible) {
+  const toggleAddModal = () => {
+    if (isAddModalVisible) {
       setTitle("");
       setAmount("");
       setDescription("");
     }
-    setModalVisible(!isModalVisible);
+    setAddModalVisible(!isAddModalVisible);
+  };
+
+  const openViewModal = (transaction: ITransactions) => {
+    setSelectedTransaction(transaction);
+    setViewModalVisible(true);
+  };
+
+  const closeViewModal = () => {
+    setViewModalVisible(false);
+    setSelectedTransaction(null);
   };
 
   const handleAddTransaction = async () => {
@@ -70,7 +82,7 @@ function Transactions() {
     });
 
     if (res.ok) {
-      toggleModal();
+      toggleAddModal();
       await getTransactions();
     } else {
       console.error("Error adding transaction");
@@ -95,7 +107,7 @@ function Transactions() {
           <Text style={styles.balanceLabel}>Balance:</Text>
           <Text style={styles.balanceAmount}>$ {calculateBalance(transactions)}</Text>
         </View>
-        <TouchableOpacity style={styles.addButton} onPress={toggleModal}>
+        <TouchableOpacity style={styles.addButton} onPress={toggleAddModal}>
           <Text style={styles.addButtonText}>+</Text>
         </TouchableOpacity>
       </View>
@@ -103,11 +115,12 @@ function Transactions() {
       {/* Transactions List */}
       <ScrollView contentContainerStyle={styles.transactions}>
         {transactions.map((transaction, index) => (
-          <Pressable key={index}>
+          <Pressable key={index} onPress={() => openViewModal(transaction)}>
             <TransactionItem
               title={transaction.title}
               date={transaction.date}
               amount={transaction.amount}
+              description={transaction.description}
               isPayment={transaction.isPayment}
             />
           </Pressable>
@@ -116,15 +129,15 @@ function Transactions() {
 
       {/* Modal for Adding Transactions */}
       <Modal
-        visible={isModalVisible}
+        visible={isAddModalVisible}
         transparent={true}
-        onRequestClose={toggleModal}
+        onRequestClose={toggleAddModal}
       >
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
           <View style={styles.modalOverlay}>
             <View style={styles.modalContainer}>
               {/* Cancel Button */}
-              <TouchableOpacity style={styles.cancelButton} onPress={toggleModal}>
+              <TouchableOpacity style={styles.cancelButton} onPress={toggleAddModal}>
                 <Text style={styles.cancelButtonText}>Cancel</Text>
               </TouchableOpacity>
 
@@ -157,6 +170,33 @@ function Transactions() {
               <TouchableOpacity style={styles.submitButton} onPress={handleAddTransaction}>
                 <Text style={styles.submitButtonText}>Add Transaction</Text>
               </TouchableOpacity>
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
+
+      {/* Modal for Viewing Transactions */}
+      <Modal
+        visible={isViewModalVisible}
+        transparent={true}
+        onRequestClose={closeViewModal}
+      >
+        <TouchableWithoutFeedback>
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContainer}>
+              {/* Close Button */}
+              <TouchableOpacity style={styles.cancelButton} onPress={closeViewModal}>
+                <Text style={styles.cancelButtonText}>Close</Text>
+              </TouchableOpacity>
+
+              {/* Transaction Details */}
+              {selectedTransaction && (
+                <View>
+                  <Text style={[styles.input, styles.titleBox]}>{selectedTransaction.title} </Text>
+                  <Text style={[styles.input, styles.amountBox]}>${selectedTransaction.amount} </Text>
+                  <Text style={[styles.input, styles.descriptionBox]}>{selectedTransaction.description} </Text>
+                </View>
+              )}
             </View>
           </View>
         </TouchableWithoutFeedback>
