@@ -181,26 +181,31 @@ function Transactions() {
         transparent={true}
         onRequestClose={closeViewModal}
       >
-        <TouchableWithoutFeedback>
-          <View style={styles.modalOverlay}>
-            <View style={styles.modalContainer}>
-              {/* Close Button */}
-              <TouchableOpacity style={styles.cancelButton} onPress={closeViewModal}>
-                <Text style={styles.cancelButtonText}>Close</Text>
-              </TouchableOpacity>
+      <TouchableWithoutFeedback>
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContainer}>
+            {/* Close Button */}
+            <TouchableOpacity style={styles.cancelButton} onPress={closeViewModal}>
+              <Text style={styles.cancelButtonText}>Close</Text>
+            </TouchableOpacity>
 
-              {/* Transaction Details */}
-              {selectedTransaction && (
-                <View>
-                  <Text style={[styles.input, styles.titleBox]}>{selectedTransaction.title} </Text>
-                  <Text style={[styles.input, styles.amountBox]}>${selectedTransaction.amount} </Text>
-                  <Text style={[styles.input, styles.descriptionBox]}>{selectedTransaction.description} </Text>
-                </View>
-              )}
-            </View>
+            {/* Transaction Details */}
+            {selectedTransaction && (
+              <View>
+                <Text style={[styles.input, styles.titleBox2]}>{selectedTransaction.title}</Text>
+                <Text style={[styles.input, styles.amountBox2]}>${selectedTransaction.amount}</Text>
+                <Text style={[styles.input, styles.descriptionBox2]}>{selectedTransaction.description}</Text>
+              </View>
+            )}
+
+            {/* Delete Button */}
+            <TouchableOpacity style={styles.deleteButton} onPress={closeViewModal}>
+              <Text style={styles.submitButtonText}>Delete Transaction</Text>
+            </TouchableOpacity>
           </View>
-        </TouchableWithoutFeedback>
-      </Modal>
+        </View>
+      </TouchableWithoutFeedback>
+    </Modal>
     </View>
   );
 }
@@ -351,6 +356,15 @@ const styles = StyleSheet.create({
     marginTop: 10,
     top: 70,
   },
+  deleteButton: {
+    width: "90%", 
+    backgroundColor: '#FF0000', 
+    borderRadius: 20,
+    paddingVertical: 15,
+    alignItems: "center",
+    marginTop: 10,
+    top: 70,
+  },
   submitButtonText: {
     color: "white", 
     fontSize: 16,
@@ -369,6 +383,23 @@ const styles = StyleSheet.create({
     height: 100,
     textAlignVertical: "top",
     marginBottom: -60, 
+  },
+  titleBox2: { 
+    marginBottom: 10,
+    marginLeft: -5, 
+    width: 300,
+  },
+  amountBox2: {
+    marginBottom: 10,
+    width: 125,
+    marginLeft: -5, 
+  },  
+  descriptionBox2: {
+    height: 100,
+    width: 300,  
+    textAlignVertical: "top",
+    marginBottom: -60,
+    marginLeft: -5, 
   },
 });
 
