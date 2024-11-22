@@ -120,7 +120,7 @@ function Transactions() {
               title={transaction.title}
               date={transaction.date}
               amount={transaction.amount}
-              description={transaction.description}
+              memo={transaction.memo}
               isPayment={transaction.isPayment}
             />
           </Pressable>
@@ -194,7 +194,7 @@ function Transactions() {
               <View>
                 <Text style={[styles.input, styles.titleBox2]}>{selectedTransaction.title}</Text>
                 <Text style={[styles.input, styles.amountBox2]}>${selectedTransaction.amount}</Text>
-                <Text style={[styles.input, styles.descriptionBox2]}>{selectedTransaction.description}</Text>
+                <Text style={[styles.input, styles.descriptionBox2]}>{selectedTransaction.memo}</Text>
               </View>
             )}
 
