@@ -16,7 +16,7 @@ function Transactions() {
   const [selectedTransaction, setSelectedTransaction] = useState<ITransactions | null>(null);
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
-  const [description, setDescription] = useState("");
+  const [memo, setMemo] = useState("");
 
 
   const getTransactions = async () => {
@@ -46,7 +46,7 @@ function Transactions() {
     if (isAddModalVisible) {
       setTitle("");
       setAmount("");
-      setDescription("");
+      setMemo("");
     }
     setAddModalVisible(!isAddModalVisible);
   };
@@ -72,7 +72,7 @@ function Transactions() {
       },
       body: JSON.stringify({
         token: token,
-        memo: description, 
+        memo: memo, 
         title,
         amount: Math.abs(Number(amount)), 
         isPayment: Number(amount) < 0,
@@ -120,7 +120,7 @@ function Transactions() {
               title={transaction.title}
               date={transaction.date}
               amount={transaction.amount}
-              description={transaction.description}
+              memo={transaction.memo}
               isPayment={transaction.isPayment}
             />
           </Pressable>
@@ -156,11 +156,11 @@ function Transactions() {
                 onChangeText={setAmount}
               />
               <TextInput
-                style={[styles.input, styles.descriptionBox]}
-                placeholder="Description"
+                style={[styles.input, styles.memoBox]}
+                placeholder="Memo"
                 placeholderTextColor="#D9D9D9"
-                value={description}
-                onChangeText={setDescription}
+                value={memo}
+                onChangeText={setMemo}
                 multiline={true}
                 textAlignVertical="top"
                 numberOfLines={4}
@@ -194,7 +194,7 @@ function Transactions() {
               <View>
                 <Text style={[styles.input, styles.titleBox2]}>{selectedTransaction.title}</Text>
                 <Text style={[styles.input, styles.amountBox2]}>${selectedTransaction.amount}</Text>
-                <Text style={[styles.input, styles.descriptionBox2]}>{selectedTransaction.description}</Text>
+                <Text style={[styles.input, styles.memoBox2]}>{selectedTransaction.memo}</Text>
               </View>
             )}
 
@@ -379,7 +379,7 @@ const styles = StyleSheet.create({
     width: 125,
     alignSelf: "flex-start", 
   },  
-  descriptionBox: {
+  memoBox: {
     height: 100,
     textAlignVertical: "top",
     marginBottom: -60, 
@@ -394,7 +394,7 @@ const styles = StyleSheet.create({
     width: 125,
     marginLeft: -5, 
   },  
-  descriptionBox2: {
+  memoBox2: {
     height: 100,
     width: 300,  
     textAlignVertical: "top",
