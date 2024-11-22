@@ -16,7 +16,8 @@ function Transactions() {
   const [selectedTransaction, setSelectedTransaction] = useState<ITransactions | null>(null);
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
-  const [description, setDescription] = useState("");
+  const [memo, setMemo] = useState("");
+  const [isRecurring, setIsRecurring] = useState(false);
 
 
   const getTransactions = async () => {
@@ -46,7 +47,7 @@ function Transactions() {
     if (isAddModalVisible) {
       setTitle("");
       setAmount("");
-      setDescription("");
+      setMemo("");
     }
     setAddModalVisible(!isAddModalVisible);
   };
@@ -72,7 +73,7 @@ function Transactions() {
       },
       body: JSON.stringify({
         token: token,
-        memo: description, 
+        memo: memo, 
         title,
         amount: Math.abs(Number(amount)), 
         isPayment: Number(amount) < 0,
@@ -105,7 +106,7 @@ function Transactions() {
       <View style={styles.balanceSection}>
         <View style={styles.balanceTextContainer}>
           <Text style={styles.balanceLabel}>Balance:</Text>
-          <Text style={styles.balanceAmount}>$ {calculateBalance(transactions)}</Text>
+          <Text style={styles.balanceAmount}>${calculateBalance(transactions)}</Text>
         </View>
         <TouchableOpacity style={styles.addButton} onPress={toggleAddModal}>
           <Text style={styles.addButtonText}>+</Text>
@@ -156,11 +157,11 @@ function Transactions() {
                 onChangeText={setAmount}
               />
               <TextInput
-                style={[styles.input, styles.descriptionBox]}
-                placeholder="Description"
+                style={[styles.input, styles.memoBox]}
+                placeholder="Memo"
                 placeholderTextColor="#D9D9D9"
-                value={description}
-                onChangeText={setDescription}
+                value={memo}
+                onChangeText={setMemo}
                 multiline={true}
                 textAlignVertical="top"
                 numberOfLines={4}
@@ -193,8 +194,22 @@ function Transactions() {
             {selectedTransaction && (
               <View>
                 <Text style={[styles.input, styles.titleBox2]}>{selectedTransaction.title}</Text>
-                <Text style={[styles.input, styles.amountBox2]}>${selectedTransaction.amount}</Text>
-                <Text style={[styles.input, styles.descriptionBox2]}>{selectedTransaction.memo}</Text>
+                <Text style={styles.recurringText}>Recurring?</Text>
+                <View style={styles.recurringContainer}>
+                  <TouchableOpacity
+                    style={[
+                      styles.checkBox,
+                      isRecurring && { backgroundColor: "#27C12D" },
+                    ]}
+                    onPress={() => setIsRecurring(!isRecurring)}
+                  >
+                    {isRecurring && (
+                      <Text style={styles.checkMark}>✔</Text>
+                    )}
+                  </TouchableOpacity>
+                </View>
+                  <Text style={[styles.input, styles.amountBox2]}>${selectedTransaction.amount}</Text>
+                  <Text style={[styles.input, styles.memoBox2]}>{selectedTransaction.memo}</Text>
               </View>
             )}
 
@@ -379,28 +394,50 @@ const styles = StyleSheet.create({
     width: 125,
     alignSelf: "flex-start", 
   },  
-  descriptionBox: {
+  memoBox: {
     height: 100,
     textAlignVertical: "top",
     marginBottom: -60, 
   },
   titleBox2: { 
-    marginBottom: 10,
+    marginBottom: -55,
     marginLeft: -5, 
     width: 300,
   },
   amountBox2: {
     marginBottom: 10,
-    width: 125,
+    width: 100,
     marginLeft: -5, 
   },  
-  descriptionBox2: {
+  memoBox2: {
     height: 100,
     width: 300,  
     textAlignVertical: "top",
     marginBottom: -60,
     marginLeft: -5, 
   },
+  recurringContainer: {
+    flexDirection: "row",
+  },
+  recurringText: {
+    color: "#858585",
+    fontSize: 23,
+    left: 120,
+    top: 70,
+  },
+  checkBox: {
+    width: 40,
+    height: 40,
+    backgroundColor: "#FFFFFF",
+    borderRadius: 5,
+    top: 40,
+    left: 253,
+  },
+  checkMark: {
+    color: "#FFFFFF",
+    fontSize: 36,
+    fontWeight: "bold",
+  },  
 });
 
 export default Transactions;
