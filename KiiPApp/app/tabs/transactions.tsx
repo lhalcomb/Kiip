@@ -105,7 +105,7 @@ function Transactions() {
       <View style={styles.balanceSection}>
         <View style={styles.balanceTextContainer}>
           <Text style={styles.balanceLabel}>Balance:</Text>
-          <Text style={styles.balanceAmount}>$ {calculateBalance(transactions)}</Text>
+          <Text style={styles.balanceAmount}>${calculateBalance(transactions)}</Text>
         </View>
         <TouchableOpacity style={styles.addButton} onPress={toggleAddModal}>
           <Text style={styles.addButtonText}>+</Text>
