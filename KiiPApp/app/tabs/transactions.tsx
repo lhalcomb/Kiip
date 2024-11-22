@@ -17,6 +17,7 @@ function Transactions() {
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [memo, setMemo] = useState("");
+  const [isRecurring, setIsRecurring] = useState(false);
 
 
   const getTransactions = async () => {
@@ -193,8 +194,22 @@ function Transactions() {
             {selectedTransaction && (
               <View>
                 <Text style={[styles.input, styles.titleBox2]}>{selectedTransaction.title}</Text>
-                <Text style={[styles.input, styles.amountBox2]}>${selectedTransaction.amount}</Text>
-                <Text style={[styles.input, styles.memoBox2]}>{selectedTransaction.memo}</Text>
+                <Text style={styles.recurringText}>Recurring?</Text>
+                <View style={styles.recurringContainer}>
+                  <TouchableOpacity
+                    style={[
+                      styles.checkBox,
+                      isRecurring && { backgroundColor: "#27C12D" },
+                    ]}
+                    onPress={() => setIsRecurring(!isRecurring)}
+                  >
+                    {isRecurring && (
+                      <Text style={styles.checkMark}>✔</Text>
+                    )}
+                  </TouchableOpacity>
+                </View>
+                  <Text style={[styles.input, styles.amountBox2]}>${selectedTransaction.amount}</Text>
+                  <Text style={[styles.input, styles.memoBox2]}>{selectedTransaction.memo}</Text>
               </View>
             )}
 
@@ -385,13 +400,13 @@ const styles = StyleSheet.create({
     marginBottom: -60, 
   },
   titleBox2: { 
-    marginBottom: 10,
+    marginBottom: -55,
     marginLeft: -5, 
     width: 300,
   },
   amountBox2: {
     marginBottom: 10,
-    width: 125,
+    width: 100,
     marginLeft: -5, 
   },  
   memoBox2: {
@@ -401,6 +416,28 @@ const styles = StyleSheet.create({
     marginBottom: -60,
     marginLeft: -5, 
   },
+  recurringContainer: {
+    flexDirection: "row",
+  },
+  recurringText: {
+    color: "#858585",
+    fontSize: 23,
+    left: 120,
+    top: 70,
+  },
+  checkBox: {
+    width: 40,
+    height: 40,
+    backgroundColor: "#FFFFFF",
+    borderRadius: 5,
+    top: 40,
+    left: 253,
+  },
+  checkMark: {
+    color: "#FFFFFF",
+    fontSize: 36,
+    fontWeight: "bold",
+  },  
 });
 
 export default Transactions;
