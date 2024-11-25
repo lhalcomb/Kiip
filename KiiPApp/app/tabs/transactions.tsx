@@ -89,6 +89,11 @@ function Transactions() {
       console.error("Error adding transaction");
     }
   }
+  const handleDeleteTransaction = async () => {
+    const token = await SecureStore.getItemAsync("token");
+    const address = await getUrl();
+    
+  }
 
   useEffect(() => {
     getTransactions();
