@@ -102,7 +102,7 @@ function Login() {
     }, [router]);
 
     return(
-        <View style={styles.pageContainer}>
+      <View style={styles.pageContainer}>
 
         <Image
             source = {require("../assets/images/kiiplogo.png")}
@@ -113,19 +113,21 @@ function Login() {
             <TextInput 
                 style={styles.inpEle}
                 placeholder='email address'
+                placeholderTextColor="#DFDFDF" 
                 value={email}
                 autoCapitalize='none'
                 onChangeText={setEmail}/>
             <TextInput 
                 style={styles.inpEle}
-                placeholder='password' 
+                placeholder='password'
+                placeholderTextColor="#DFDFDF" 
                 secureTextEntry
                 value={password}
                 autoCapitalize='none'
                 onChangeText={setPassword}/>
 
             <Pressable style={styles.loginButton} onPress={loginOnPress} >
-                <Text style={styles.loginText}>login</Text>
+                <Text style={styles.loginText}>LOGIN</Text>
             </Pressable>
         </View>
 
@@ -136,7 +138,7 @@ function Login() {
         <View style = {styles.lgCircle}/>
         <View style = {styles.smCircle}/>
 
-        </View>
+      </View>
      )
 }
 
@@ -162,10 +164,9 @@ const styles = StyleSheet.create({
   }, 
   inpBox: {
     top: '5%',
+    height: '30.5%',
     alignItems: 'center',
     backgroundColor: "#D9D9D9",
-    rowGap: 2,
-    height: "35%",
     padding: 25,
     borderRadius: 24,
   },
