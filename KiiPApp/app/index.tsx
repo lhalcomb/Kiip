@@ -13,10 +13,15 @@ import {
 import {useRouter} from "expo-router";
 
 import * as Linking from "expo-linking";
+//import ExpoSecureStore, {getItemAsync, setItemAsync} from 'expo-secure-store';
+import * as SecureStore from 'expo-secure-store';
 import { useEffect, useState } from 'react';
 import colors from '../config/colors';
 
-//import ExpoSecureStore, {getItemAsync, setItemAsync} from 'expo-secure-store';
+export async function getUrl() {
+  const ip = await Linking.getInitialURL();
+  return `http${ip?.substring(3, ip.length - 4)}3000`;
+}
 
 function Login() {
     const [email, setEmail] = useState("");
@@ -27,11 +32,9 @@ function Login() {
 
     const loginOnPress = async () => {
         if (email && password) {
-            //Alert.alert(`Logged in with: ${email} and ${password}`)
             setError("");
-            //A Local IP - 10.15.15.131. Need to discover way to get this from the app
-            const baseURL = Platform.OS == "android" ? "http://10.0.2.2:3000" : "http://localhost:3000";
-            const res = await fetch(`${baseURL}/auth`, {
+            const address = await getUrl();
+            const res = await fetch(`${address}/auth`, {
                 method: "POST",
                 headers: {
                     "Accept": "application/json",
@@ -44,17 +47,62 @@ function Login() {
             });
 
             if (res.ok) {
+                const data = await res.json();
+                const token = data.token;
+                await SecureStore.setItemAsync("token", token);
                 router.push("./tabs/transactions");  // Navigate to 'Home' page
+                
             }else{
                 setError("Incorrect email or password");
+          
             }   
         } else {
             setError("Please enter both email and password");
         }
     };
+    const checkToken = async () => {
+      // await SecureStore.setItemAsync("token", "");
+      try {
+          const token = await SecureStore.getItemAsync("token");
+          
+          if (token) {
+              // fetch /authorize
+              const address = await getUrl();
+              const res = await fetch(`${address}/checkToken`, {
+                method: "POST",
+                headers: {
+                  "Accept": "application/json",
+                  "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "token": token
+                })
+              });
+
+              if (res.ok) {
+                router.push("./tabs/transactions");
+               
+              } else {
+                await SecureStore.setItemAsync("token", "");
+                
+              }
+          }
+      } catch (error) {
+          console.error("Error checking token:", error);
+      }
+  };
+
+    useEffect(() => {
+    
+      // const token = SecureStore.getItemAsync("token");
+      // if (token) {
+      //   router.push("./tabs/transactions");
+      // }
+      checkToken();
+    }, [router]);
 
     return(
-        <View style={styles.pageContainer}>
+      <View style={styles.pageContainer}>
 
         <Image
             source = {require("../assets/images/kiiplogo.png")}
@@ -65,19 +113,21 @@ function Login() {
             <TextInput 
                 style={styles.inpEle}
                 placeholder='email address'
+                placeholderTextColor="#DFDFDF" 
                 value={email}
                 autoCapitalize='none'
                 onChangeText={setEmail}/>
             <TextInput 
                 style={styles.inpEle}
-                placeholder='password' 
+                placeholder='password'
+                placeholderTextColor="#DFDFDF" 
                 secureTextEntry
                 value={password}
                 autoCapitalize='none'
                 onChangeText={setPassword}/>
 
             <Pressable style={styles.loginButton} onPress={loginOnPress} >
-                <Text style={styles.loginText}>login</Text>
+                <Text style={styles.loginText}>LOGIN</Text>
             </Pressable>
         </View>
 
@@ -88,7 +138,7 @@ function Login() {
         <View style = {styles.lgCircle}/>
         <View style = {styles.smCircle}/>
 
-        </View>
+      </View>
      )
 }
 
@@ -114,10 +164,9 @@ const styles = StyleSheet.create({
   }, 
   inpBox: {
     top: '5%',
+    height: '30.5%',
     alignItems: 'center',
     backgroundColor: "#D9D9D9",
-    rowGap: 2,
-    height: "35%",
     padding: 25,
     borderRadius: 24,
   },

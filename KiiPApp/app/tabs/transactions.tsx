@@ -1,35 +1,109 @@
 // app/Transactions.tsx
-import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Pressable, Modal, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { TransactionItem } from '../../components/transactionItem';
+import * as SecureStore from 'expo-secure-store';
+import { useEffect, useState } from 'react';
+import {useRouter} from "expo-router";
+import {getUrl} from '../index';
+import {ITransactions} from "../../api/ITransactions";
+import calculateBalance from "@/components/balanceCalculator";
 
-interface Transactions {
-  title: string;
-  date: string;
-  amount: string;
-}
-
-function TransactionItem({ title, date, amount }: Transactions) {
-  const isPositive = amount.startsWith("+");
-  return (
-    <View style={styles.transactionItem}>
-      <View>
-        <Text style={styles.transactionTitle}>{title}</Text>
-        <Text style={styles.transactionDate}>{date}</Text>
-      </View>
-      <View style={styles.transactionContainer}>
-        <Text style={[styles.transactionAmount, isPositive ? styles.positive : styles.negative]}>
-          {amount}
-        </Text>
-      </View>
-    </View>
-  );
-}
 
 function Transactions() {
+  const [transactions, setTransactions] = useState<ITransactions[]>([]);
+  const [isAddModalVisible, setAddModalVisible] = useState(false);
+  const [isViewModalVisible, setViewModalVisible] = useState(false);
+  const [selectedTransaction, setSelectedTransaction] = useState<ITransactions | null>(null);
+  const [title, setTitle] = useState("");
+  const [amount, setAmount] = useState("");
+  const [memo, setMemo] = useState("");
+  const [isRecurring, setIsRecurring] = useState(false);
+
+
+  const getTransactions = async () => {
+    const token = await SecureStore.getItemAsync("token");
+    const address = await getUrl();
+    const res = await fetch(`${address}/transactions`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        token: token,
+      }),
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      setTransactions(data);
+    } else {
+      console.error(res.status);
+    }
+    
+  };
+
+  const toggleAddModal = () => {
+    if (isAddModalVisible) {
+      setTitle("");
+      setAmount("");
+      setMemo("");
+    }
+    setAddModalVisible(!isAddModalVisible);
+  };
+
+  const openViewModal = (transaction: ITransactions) => {
+    setSelectedTransaction(transaction);
+    setViewModalVisible(true);
+  };
+
+  const closeViewModal = () => {
+    setViewModalVisible(false);
+    setSelectedTransaction(null);
+  };
+
+  const handleAddTransaction = async () => {
+    const token = await SecureStore.getItemAsync("token");
+    const address = await getUrl();
+    const res = await fetch(`${address}/transaction`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        token: token,
+        memo: memo, 
+        title,
+        amount: Math.abs(Number(amount)), 
+        isPayment: Number(amount) < 0,
+        isRecurring: false
+      }),
+      
+    });
+
+    if (res.ok) {
+      toggleAddModal();
+      await getTransactions();
+    } else {
+      console.error("Error adding transaction");
+    }
+  }
+  const handleDeleteTransaction = async () => {
+    const token = await SecureStore.getItemAsync("token");
+    const address = await getUrl();
+    
+  }
+
+  useEffect(() => {
+    getTransactions();
+  }, []);
+
   return (
     <View>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.headerText}>Home</Text>
+        <Text style={styles.headerText}>Transactions</Text>
         <Text style={styles.menuIcon}>•••</Text>
       </View>
 
@@ -37,22 +111,121 @@ function Transactions() {
       <View style={styles.balanceSection}>
         <View style={styles.balanceTextContainer}>
           <Text style={styles.balanceLabel}>Balance:</Text>
-          <Text style={styles.balanceAmount}>$2,120.09</Text>
+          <Text style={styles.balanceAmount}>${calculateBalance(transactions)}</Text>
         </View>
-        <View style={styles.addButton}>
+        <TouchableOpacity style={styles.addButton} onPress={toggleAddModal}>
           <Text style={styles.addButtonText}>+</Text>
-        </View>
+        </TouchableOpacity>
       </View>
-
+      
       {/* Transactions List */}
       <ScrollView contentContainerStyle={styles.transactions}>
-        <Pressable onPress={() => {console.log("Clicked!")}}>
-          <TransactionItem title="Paycheck" date="10/22/25 (11:23 AM)" amount="+$481.23" />
-        </Pressable>
-        <Pressable onPress={() => {console.log("Clicked!")}}>
-          <TransactionItem title="Taco Bell" date="10/22/25 (4:15 PM)" amount="-$15.18" />
-        </Pressable>
+        {transactions.map((transaction, index) => (
+          <Pressable key={index} onPress={() => openViewModal(transaction)}>
+            <TransactionItem
+              title={transaction.title}
+              date={transaction.date}
+              amount={transaction.amount}
+              memo={transaction.memo}
+              isPayment={transaction.isPayment}
+            />
+          </Pressable>
+        ))}
       </ScrollView>
+
+      {/* Modal for Adding Transactions */}
+      <Modal
+        visible={isAddModalVisible}
+        transparent={true}
+        onRequestClose={toggleAddModal}
+      >
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContainer}>
+              {/* Cancel Button */}
+              <TouchableOpacity style={styles.cancelButton} onPress={toggleAddModal}>
+                <Text style={styles.cancelButtonText}>Cancel</Text>
+              </TouchableOpacity>
+
+              <TextInput
+                style={[styles.input, styles.titleBox]}
+                placeholder="Transaction Title"
+                placeholderTextColor="#D9D9D9"
+                value={title}
+                onChangeText={setTitle}
+              />
+              <TextInput
+                style={[styles.input, styles.amountBox]}
+                placeholder="(+,-) $0.00"
+                placeholderTextColor="#D9D9D9"
+                value={amount}
+                onChangeText={setAmount}
+              />
+              <TextInput
+                style={[styles.input, styles.memoBox]}
+                placeholder="Memo"
+                placeholderTextColor="#D9D9D9"
+                value={memo}
+                onChangeText={setMemo}
+                multiline={true}
+                textAlignVertical="top"
+                numberOfLines={4}
+              />
+
+              {/* Submit Button */}
+              <TouchableOpacity style={styles.submitButton} onPress={handleAddTransaction}>
+                <Text style={styles.submitButtonText}>Add Transaction</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
+
+      {/* Modal for Viewing Transactions */}
+      <Modal
+        visible={isViewModalVisible}
+        transparent={true}
+        onRequestClose={closeViewModal}
+      >
+      <TouchableWithoutFeedback>
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContainer}>
+            {/* Close Button */}
+            <TouchableOpacity style={styles.cancelButton} onPress={closeViewModal}>
+              <Text style={styles.cancelButtonText}>Close</Text>
+            </TouchableOpacity>
+
+            {/* Transaction Details */}
+            {selectedTransaction && (
+              <View>
+                <Text style={[styles.input, styles.titleBox2]}>{selectedTransaction.title}</Text>
+                <Text style={styles.recurringText}>Recurring?</Text>
+                <View style={styles.recurringContainer}>
+                  <TouchableOpacity
+                    style={[
+                      styles.checkBox,
+                      isRecurring && { backgroundColor: "#27C12D" },
+                    ]}
+                    onPress={() => setIsRecurring(!isRecurring)}
+                  >
+                    {isRecurring && (
+                      <Text style={styles.checkMark}>✔</Text>
+                    )}
+                  </TouchableOpacity>
+                </View>
+                  <Text style={[styles.input, styles.amountBox2]}>${selectedTransaction.amount}</Text>
+                  <Text style={[styles.input, styles.memoBox2]}>{selectedTransaction.memo}</Text>
+              </View>
+            )}
+
+            {/* Delete Button */}
+            <TouchableOpacity style={styles.deleteButton} onPress={closeViewModal}>
+              <Text style={styles.submitButtonText}>Delete Transaction</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </TouchableWithoutFeedback>
+    </Modal>
     </View>
   );
 }
@@ -96,7 +269,7 @@ const styles = StyleSheet.create({
   balanceAmount: {
     fontSize: 32,
     fontWeight: "bold",
-    color: "#27C12D",
+    color: "black",
   },
   addButton: {
     width: 70,
@@ -154,6 +327,122 @@ const styles = StyleSheet.create({
   negative: {
     color: "red",
   },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)", 
+  },
+  modalContainer: {
+    width: '90%', 
+    backgroundColor: "#D9D9D9",
+    borderRadius: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 15, 
+    alignItems: "center", 
+  },
+  cancelButton: {
+    position: "absolute",
+    top: -45, 
+    right: 15,
+    backgroundColor: "black", 
+    borderRadius: 20,
+    paddingVertical: 10, 
+    paddingHorizontal: 20, 
+    zIndex: 10,
+  },
+  cancelButtonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold", 
+    textTransform: "uppercase",
+  },
+  input: {
+    width: "100%", 
+    borderWidth: 1,
+    borderColor: "#D9D9D9",
+    borderRadius: 8,
+    padding: 10,
+    marginBottom: 10,
+    fontSize: 16,
+    backgroundColor: "white", 
+  },
+  submitButton: {
+    width: "90%", 
+    backgroundColor: "#27C12D", 
+    borderRadius: 20,
+    paddingVertical: 15,
+    alignItems: "center",
+    marginTop: 10,
+    top: 70,
+  },
+  deleteButton: {
+    width: "90%", 
+    backgroundColor: '#FF0000', 
+    borderRadius: 20,
+    paddingVertical: 15,
+    alignItems: "center",
+    marginTop: 10,
+    top: 70,
+  },
+  submitButtonText: {
+    color: "white", 
+    fontSize: 16,
+    fontWeight: "bold",
+    textTransform: "uppercase", 
+  },
+  titleBox: { 
+    marginBottom: 10 
+  },
+  amountBox: {
+    marginBottom: 10,
+    width: 125,
+    alignSelf: "flex-start", 
+  },  
+  memoBox: {
+    height: 100,
+    textAlignVertical: "top",
+    marginBottom: -60, 
+  },
+  titleBox2: { 
+    marginBottom: -55,
+    marginLeft: -5, 
+    width: 300,
+  },
+  amountBox2: {
+    marginBottom: 10,
+    width: 100,
+    marginLeft: -5, 
+  },  
+  memoBox2: {
+    height: 100,
+    width: 300,  
+    textAlignVertical: "top",
+    marginBottom: -60,
+    marginLeft: -5, 
+  },
+  recurringContainer: {
+    flexDirection: "row",
+  },
+  recurringText: {
+    color: "#858585",
+    fontSize: 23,
+    left: 120,
+    top: 70,
+  },
+  checkBox: {
+    width: 40,
+    height: 40,
+    backgroundColor: "#FFFFFF",
+    borderRadius: 5,
+    top: 40,
+    left: 253,
+  },
+  checkMark: {
+    color: "#FFFFFF",
+    fontSize: 36,
+    fontWeight: "bold",
+  },  
 });
 
 export default Transactions;

@@ -1,26 +1,31 @@
 import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
+import {ITransactions} from "../api/ITransactions";
 
-interface Transactions {
-    title: string;
-    date: string;
-    amount: string;
-  }
 
-function TransactionItem({ title, date, amount }: Transactions) {
-const isPositive = amount.startsWith("+");
-return (
-    <View style={styles.transactionItem}>
-    <View>
-        <Text style={styles.transactionTitle}>{title}</Text>
-        <Text style={styles.transactionDate}>{date}</Text>
-    </View>
-    <View style={styles.transactionContainer}>
-        <Text style={[styles.transactionAmount, isPositive ? styles.positive : styles.negative]}>
-        {amount}
+export function TransactionItem({ title, date, amount, isPayment }: ITransactions) {
+    const formatDate = (sqldate:  Date ) => 
+        {
+      
+          const date = new Date(sqldate);
+          const options: Intl.DateTimeFormatOptions = { /*weekday: 'long', */  year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit' };
+      
+          return date.toLocaleDateString(undefined, options);
+      
+        }
+
+    return (
+        <View style={styles.transactionItem}>
+        <View>
+            <Text style={styles.transactionTitle}>{title}</Text>
+            <Text style={styles.transactionDate}>{formatDate(date)}</Text>
+        </View>
+        <View style={styles.transactionContainer}>
+        <Text style={[styles.transactionAmount, isPayment ? styles.negative : styles.positive]}>
+            {isPayment ? `- ${Math.abs(amount)}` :  `+ ${amount} `}
         </Text>
-    </View>
-    </View>
-);
+        </View>
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
